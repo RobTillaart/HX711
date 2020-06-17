@@ -36,17 +36,7 @@ for pricing goods or for educational purposes. These functions are under discuss
 if they will stay. Another set of function to add weights together didn't make it in 
 the 0.2.0 release, it is on a todo list.
 
-**weight.h"
-Weight.h is a separate include file with a number of weight conversion functions.
-Could become a repository in itself one day.
-
-```
-          stone - lbs - ounce
-            |      |      |
-           kilo   kilo - gram
-```
-Overview conversions in weight.h
-
+For weight conversion functions see https://github.com/RobTillaart/weight
 
 ## Notes
 
