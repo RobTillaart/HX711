@@ -1,3 +1,9 @@
+
+[![Arduino CI](https://github.com/RobTillaart/HX711/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/HX711/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/RobTillaart/HX711.svg?maxAge=3600)](https://github.com/RobTillaart/HX711/releases)
+
+
 # HX711
 
 Arduino library for HX711 24 bit ADC  used for load cells and scales.
@@ -11,14 +17,14 @@ Another important difference is that this library uses floats. The 23 bits manti
 of the IEE754 float matches the 24 bit ADC very well. Furthermore it gave a smaller
 footprint. 
 
-**Main flow**
+### Main flow
 
-First action is to call **begin(DATAPIN, CLOCKPIN)** to make connetion to the **HX711**.
+First action is to call **begin(dataPin, clockPin)** to make connetion to the **HX711**.
 
 Second step is callibration for which a number of functions exist.
-* **tare()** measures zero point
-* **set_scale(factor)** set a known conversion factor e.g. from EEPROM.
-* **callibrate_scale(WEIGHT, TIMES)** determines the scale factor based upon a known weight e.g. 1 Kg.
+- **tare()** measures zero point
+- **set_scale(factor)** set a known conversion factor e.g. from EEPROM.
+- **callibrate_scale(WEIGHT, TIMES)** determines the scale factor based upon a known weight e.g. 1 Kg.
 
 Steps to take for callibration
 1. clear the scale
@@ -29,7 +35,7 @@ Steps to take for callibration
 1. save the offset and scale for later use e.g. EEPROM.
 
 
-**Pricing**
+### Pricing
 
 Some price functions were added to make it easy to use this library
 for pricing goods or for educational purposes. These functions are under discussion
@@ -40,39 +46,39 @@ For weight conversion functions see https://github.com/RobTillaart/weight
 
 ## Notes
 
-**Scale values for loadcells**
+### Scale values for loadcells
 
 These scale values worked pretty well with a set of loadcells, 
 Use callibrate to find your values.
 
-* 5 KG loadcell   scale.set_scale(420.52); 
-* 20 KG loadcell  scale.set_scale(127.15); 
+- 5 KG loadcell   scale.set_scale(420.52); 
+- 20 KG loadcell  scale.set_scale(127.15); 
 
-**Connections HX711**
+### Connections HX711
 
-A+/A-  uses gain of 128 or 64
-B+/B-  uses gain of 32
+- A+/A-  uses gain of 128 or 64
+- B+/B-  uses gain of 32
 
-**Connections**
-
-| HX711 Pin | Color |
-|:----|:----|
-| E+ | rood          | 
-| E- | zwart         | 
-| A- | wit           | 
-| A+ | groen         | 
-| B- | not connected | 
-| B+ | not connected | 
-
+### Connections
 
 | HX711 Pin | Color |
-|:----|:----|
-| E+ | rood          |
-| E- | zwart         |
-| A- | blauw         |
-| A+ | wit           |
-| B- | not connected |
-| B+ | not connected |
+|:----:|:----:|
+|  E+  |  red           |
+|  E-  |  black         |
+|  A-  |  white         |
+|  A+  |  green         |
+|  B-  |  not connected |
+|  B+  |  not connected |
+
+
+| HX711 Pin | Color |
+|:----:|:----:|
+|  E+  | red           |
+|  E-  | black         |
+|  A-  | blue          |
+|  A+  | white         |
+|  B-  | not connected |
+|  B+  | not connected |
 
 ## Operation
 
