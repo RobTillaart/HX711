@@ -14,13 +14,6 @@
 
 #include "Arduino.h"
 
-#ifndef shiftIn
-uint8_t shiftIn(uint8_t data, uint8_t clock, uint8_t mode)
-{
-  return 0x42;
-}
-#endif
-
 #define HX711_LIB_VERSION  "0.2.1"
 
 class HX711
