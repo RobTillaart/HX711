@@ -33,12 +33,10 @@
 #include "Arduino.h"
 
 
-#ifndef shiftIn
 uint8_t shiftIn(uint8_t data, uint8_t clock, uint8_t mode)
 {
   return 0x42;
 }
-#endif
 
 
 #include "HX711.h"
