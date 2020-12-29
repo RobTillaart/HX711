@@ -28,17 +28,7 @@
 #define assertEqualNAN(arg)  assertOp("assertEqualNAN", "expected", true, compareEqual, "==", "actual", isnan(arg))
 
 
-
-
 #include "Arduino.h"
-
-
-uint8_t shiftIn(uint8_t data, uint8_t clock, uint8_t mode)
-{
-  return 0x42;
-}
-
-
 #include "HX711.h"
 
 uint8_t dataPin = 6;
