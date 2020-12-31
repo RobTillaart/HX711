@@ -9,5 +9,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: Arduino-CI/action@master
+      - uses: Arduino-CI/action@latest
+      #- uses: Arduino-CI/action@master
           #   Arduino-CI/action@v0.1.1
