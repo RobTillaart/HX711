@@ -64,7 +64,7 @@ unittest(test_constructor)
   HX711 scale;
   scale.begin(dataPin, clockPin);
 
-  assertFalse(scale.is_ready());
+  assertTrue(scale.is_ready());  // pins are default LOW apparently.
 
   // assertEqual(1, 1);
 }
@@ -129,6 +129,10 @@ unittest(test_tare)
 
   assertEqual(0, scale.get_tare());
   assertFalse(scale.tare_set());
+
+  scale.set_offset(123);
+  assertTrue(scale.tare_set());
+
 }
 
 

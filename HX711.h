@@ -51,7 +51,7 @@ public:
   // call tare to calibrate zero
   void     tare(uint8_t times = 10)     { _offset = read_average(times); };
   float    get_tare()                   { return -_offset * _scale; };
-  bool     tare_set()                   { return _offset == 0; };
+  bool     tare_set()                   { return _offset != 0; };
 
   // CORE "CONSTANTS" -> read datasheet
   // GAIN values: 128, 64 32  [only 128 tested & verified]
