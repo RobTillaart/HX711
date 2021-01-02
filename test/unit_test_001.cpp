@@ -66,7 +66,7 @@ unittest(test_constructor)
 
   assertFalse(scale.is_ready());
 
-  assertEqual(1, 1);
+  // assertEqual(1, 1);
 }
 
 unittest(test_gain)
