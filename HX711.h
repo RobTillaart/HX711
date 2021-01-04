@@ -12,9 +12,10 @@
 // Superset of interface of HX711 class of Bogde
 // float iso long as float has 23 bits mantisse.
 
+
 #include "Arduino.h"
 
-#define HX711_LIB_VERSION  "0.2.1"
+#define HX711_LIB_VERSION  (F("0.2.1"))
 
 class HX711
 {
