@@ -1,12 +1,16 @@
 //
 //    FILE: HX711.cpp
 //  AUTHOR: Rob Tillaart
+// VERSION: 0.2.1
 // PURPOSE: Library for Loadcells for UNO
-// VERSION: 0.2.0
-// HISTORY:
-// 0.1.0    2019-09-04 initial release
-// 0.1.1    2019-09-09 change long to float (reduce footprint)
-// 0.2.0    2020-06-15 refactor; add price functions;
+//     URL: https://github.com/RobTillaart/HX711
+//
+//  HISTORY:
+//  0.1.0   2019-09-04  initial release
+//  0.1.1   2019-09-09  change long to float (reduce footprint)
+//  0.2.0   2020-06-15  refactor; add price functions;
+//  0.2.1   2020-12-28  add arduino-ci + unit test
+
 
 #include "HX711.h"
 
