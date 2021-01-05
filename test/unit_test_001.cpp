@@ -66,7 +66,6 @@ unittest(test_constructor)
 
   assertTrue(scale.is_ready());  // pins are default LOW apparently.
 
-  // assertEqual(1, 1);
 }
 
 unittest(test_gain)
@@ -132,7 +131,6 @@ unittest(test_tare)
 
   scale.set_offset(123);
   assertTrue(scale.tare_set());
-
 }
 
 
