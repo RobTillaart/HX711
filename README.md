@@ -8,18 +8,20 @@
 
 Arduino library for HX711 24 bit ADC  used for load cells and scales.
 
-# Description
+
+## Description
 
 This HX711 library has an interface which is a superset of a library made by bogde.
 Some missing functions were added to get more info from the lib. 
 
 Another important difference is that this library uses floats. The 23 bits mantisse 
 of the IEE754 float matches the 24 bit ADC very well. Furthermore it gave a smaller
-footprint. 
+footprint.
 
-### Main flow
 
-First action is to call **begin(dataPin, clockPin)** to make connetion to the **HX711**.
+## Main flow
+
+First action is to call **begin(dataPin, clockPin)** to make connection to the **HX711**.
 
 Second step is callibration for which a number of functions exist.
 - **tare()** measures zero point
@@ -35,7 +37,7 @@ Steps to take for callibration
 1. save the offset and scale for later use e.g. EEPROM.
 
 
-### Pricing
+## Pricing
 
 Some price functions were added to make it easy to use this library
 for pricing goods or for educational purposes. These functions are under discussion
@@ -44,7 +46,9 @@ the 0.2.0 release, it is on a todo list.
 
 For weight conversion functions see https://github.com/RobTillaart/weight
 
+
 ## Notes
+
 
 ### Scale values for loadcells
 
@@ -54,10 +58,12 @@ Use callibrate to find your values.
 - 5 KG loadcell   scale.set_scale(420.52); 
 - 20 KG loadcell  scale.set_scale(127.15); 
 
+
 ### Connections HX711
 
 - A+/A-  uses gain of 128 or 64
 - B+/B-  uses gain of 32
+
 
 ### Connections
 
@@ -79,6 +85,18 @@ Use callibrate to find your values.
 |  A+  | white         |
 |  B-  | not connected |
 |  B+  | not connected |
+
+
+### Temperature
+
+Loadcells do have a temperature related error.
+This can be reduced by doing the calibration and take the tare 
+at the temperature one also does the measurements.
+
+Another way to handle this is to add a good temperature sensor
+(e.g. DS18B20, SHT85) and compensate for the temperature
+differences in your code. 
+
 
 ## Operation
 
