@@ -141,12 +141,12 @@ float HX711::read_median(uint8_t times)
     s[i] = read();
     yield();
   }
-  insertSort(s, times);
+  _insertSort(s, times);
   if (times & 0x01) return s[times/2];
   return (s[times/2] + s[times/2+1])/2;
 }
 
-void HX711::insertSort(float * ar, uint8_t n)
+void HX711::_insertSort(float * ar, uint8_t n)
 {
   uint8_t t, z, 
   float temp;
