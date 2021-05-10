@@ -1,7 +1,7 @@
 //
 //    FILE: HX711.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Library for Loadcells for UNO
 //     URL: https://github.com/RobTillaart/HX711
 //
@@ -10,7 +10,7 @@
 //  0.1.1   2019-09-09  change long to float (reduce footprint)
 //  0.2.0   2020-06-15  refactor; add price functions;
 //  0.2.1   2020-12-28  add arduino-ci + unit test
-
+//  0.2.2   2021-05-10  add read_median()
 
 #include "HX711.h"
 
@@ -130,6 +130,42 @@ float HX711::read_average(uint8_t times)
   }
   return sum / times;
 }
+
+float HX711::read_median(uint8_t times) 
+{
+  if (times > 15) times = 15;
+  if (times < 3)  times = 3;
+  float s[15];
+  for (uint8_t i = 0; i < times; i++) 
+  {
+    s[i] = read();
+    yield();
+  }
+  insertSort(s, times);
+  if (times & 0x01) return s[times/2];
+  return (s[times/2] + s[times/2+1])/2;
+}
+
+void HX711::insertSort(float * ar, uint8_t n)
+{
+  uint8_t t, z, 
+  float temp;
+  for (t = 1; t < n; t++) 
+  {
+    z = t;
+    temp = ar[z];
+    while( (z > 0) && (temp < ar[z - 1] )) 
+    {
+      ar[z] = ar[z - 1];
+      z--;
+    }
+    ar[z] = temp;
+    yield();
+  }
+}
+
+
+
 
 float HX711::get_units(uint8_t times)
 {

@@ -2,7 +2,7 @@
 //
 //    FILE: HX711.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.2.1
+// VERSION: 0.2.2
 // PURPOSE: Library for Loadcells for UNO
 //     URL: https://github.com/RobTillaart/HX711
 //
@@ -15,7 +15,7 @@
 
 #include "Arduino.h"
 
-#define HX711_LIB_VERSION  (F("0.2.1"))
+#define HX711_LIB_VERSION  (F("0.2.2"))
 
 class HX711
 {
@@ -41,8 +41,10 @@ public:
 
   // raw read
   float    read();
-  // multiple raw reads
+  // get average of multiple raw reads
   float    read_average(uint8_t times = 10);
+  // get median of multiple raw reads  
+  float    read_median(uint8_t times = 7);  // times = 3..15
   // corrected for offset
   float    get_value(uint8_t times = 1) { return read_average(times) - _offset; };
   // converted to proper units.
@@ -94,6 +96,8 @@ private:
   float    _scale    = 1;
   uint32_t _lastRead = 0;
   float    _price    = 0;
+  
+  void     _insertSort(float *, uint8_t);
 };
 
 // -- END OF FILE --
