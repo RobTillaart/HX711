@@ -148,7 +148,7 @@ float HX711::read_median(uint8_t times)
 
 void HX711::_insertSort(float * ar, uint8_t n)
 {
-  uint8_t t, z, 
+  uint8_t t, z;
   float temp;
   for (t = 1; t < n; t++) 
   {
