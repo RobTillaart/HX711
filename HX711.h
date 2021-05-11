@@ -71,9 +71,9 @@ public:
   // clear the scale
   // call tare() to set the zero offset
   // put a known weight on the scale 
-  // call callibrate_scale(weight) 
+  // call calibrate_scale(weight) 
   // scale is calculated.
-  void     callibrate_scale(uint16_t weight, uint8_t times = 10);
+  void     calibrate_scale(uint16_t weight, uint8_t times = 10);
 
   // POWER MANAGEMENT
   void     power_down();

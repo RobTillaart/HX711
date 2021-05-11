@@ -10,7 +10,7 @@
 //  0.1.1   2019-09-09  change long to float (reduce footprint)
 //  0.2.0   2020-06-15  refactor; add price functions;
 //  0.2.1   2020-12-28  add arduino-ci + unit test
-//  0.2.2   2021-05-10  add read_median()
+//  0.2.2   2021-05-10  add read_median(), fix typo
 
 #include "HX711.h"
 
@@ -86,7 +86,7 @@ float HX711::read()
 }
 
 // assumes tare() has been set.
-void HX711::callibrate_scale(uint16_t weight, uint8_t times)
+void HX711::calibrate_scale(uint16_t weight, uint8_t times)
 {
   _scale = (1.0 * weight) / (read_average(times) - _offset);
 }

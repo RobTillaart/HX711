@@ -32,7 +32,7 @@ get_scale	KEYWORD2
 set_offset	KEYWORD2
 get_offset	KEYWORD2
 
-callibrate_scale	KEYWORD2
+calibrate_scale	KEYWORD2
 
 power_down	KEYWORD2
 power_up	KEYWORD2
