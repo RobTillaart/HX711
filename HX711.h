@@ -18,8 +18,8 @@
 #define HX711_LIB_VERSION  (F("0.2.2"))
 
 
-const int HX711_AVERAGE_MODE = 0x00;
-const int HX711_MEDIAN_MODE = 0x01;
+const uint8_t HX711_AVERAGE_MODE = 0x00;
+const uint8_t HX711_MEDIAN_MODE = 0x01;
 
 
 class HX711
@@ -54,7 +54,7 @@ public:
   // get set mode for get_value() and indirect get_units().
   void     set_median_mode() { _mode = HX711_MEDIAN_MODE; };
   void     set_average_mode() { _mode = HX711_AVERAGE_MODE; };
-  int      get_mode() { return _mode; };
+  uint8_t  get_mode() { return _mode; };
  
   // corrected for offset
   float    get_value(uint8_t times = 1);
@@ -107,7 +107,8 @@ private:
   float    _scale    = 1;
   uint32_t _lastRead = 0;
   float    _price    = 0;
-  
+  uint8_t  _mode     = 0;
+
   void     _insertSort(float *, uint8_t);
 };
 
