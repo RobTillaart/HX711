@@ -17,6 +17,11 @@
 
 #define HX711_LIB_VERSION  (F("0.2.2"))
 
+
+const int HX711_AVERAGE_MODE = 0x00;
+const int HX711_MEDIAN_MODE = 0x01;
+
+
 class HX711
 {
 public:
@@ -45,8 +50,14 @@ public:
   float    read_average(uint8_t times = 10);
   // get median of multiple raw reads  
   float    read_median(uint8_t times = 7);  // times = 3..15
+
+  // get set mode for get_value() and indirect get_units().
+  void     set_median_mode() { _mode = HX711_MEDIAN_MODE; };
+  void     set_average_mode() { _mode = HX711_AVERAGE_MODE; };
+  int      get_mode() { return _mode; };
+ 
   // corrected for offset
-  float    get_value(uint8_t times = 1) { return read_average(times) - _offset; };
+  float    get_value(uint8_t times = 1);
   // converted to proper units.
   float    get_units(uint8_t times = 1);
 

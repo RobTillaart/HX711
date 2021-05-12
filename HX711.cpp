@@ -10,7 +10,7 @@
 //  0.1.1   2019-09-09  change long to float (reduce footprint)
 //  0.2.0   2020-06-15  refactor; add price functions;
 //  0.2.1   2020-12-28  add arduino-ci + unit test
-//  0.2.2   2021-05-10  add read_median(), fix typo
+//  0.2.2   2021-05-10  add read_median(), fix typo, add mode operandi
 
 #include "HX711.h"
 
@@ -38,6 +38,7 @@ void HX711::reset()
   _offset = 0;
   _scale = 1;
   _gain = 128;
+  _mode = HX711_AVERAGE_MODE;
 }
 
 bool HX711::is_ready()
@@ -165,6 +166,19 @@ void HX711::_insertSort(float * ar, uint8_t n)
 }
 
 
+float HX711::get_value(uint8_t times) 
+{
+  float raw;
+  if (_mode == HX711_AVERAGE_MODE)
+  {
+    raw = read_average(times);
+  }
+  else
+  {
+    raw = read_median(times);
+  }
+  return raw - _offset;
+};
 
 
 float HX711::get_units(uint8_t times)
