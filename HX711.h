@@ -20,6 +20,9 @@
 
 const uint8_t HX711_AVERAGE_MODE = 0x00;
 const uint8_t HX711_MEDIAN_MODE = 0x01;
+// average of the middle elements
+// in medavg mode only between 3 and 15 samples are allowed.
+const uint8_t HX711_MEDAVG_MODE = 0x02;
 
 
 class HX711
@@ -48,24 +51,35 @@ public:
   float    read();
   // get average of multiple raw reads
   float    read_average(uint8_t times = 10);
+
   // get median of multiple raw reads  
-  float    read_median(uint8_t times = 7);  // times = 3..15
+  // times = 3..15 - odd numbers preferred
+  float    read_median(uint8_t times = 7);  
+
+  // get average of "middle half" of multiple raw reads.
+  // times = 3..15 - odd numbers preferred
+  float    read_medavg(uint8_t times = 7);  
+
 
   // get set mode for get_value() and indirect get_units().
-  void     set_median_mode() { _mode = HX711_MEDIAN_MODE; };
+  // in median and medavg mode only 3..15 samples are allowed.
   void     set_average_mode() { _mode = HX711_AVERAGE_MODE; };
-  uint8_t  get_mode() { return _mode; };
+  void     set_median_mode()  { _mode = HX711_MEDIAN_MODE; };
+  void     set_medavg_mode()  { _mode = HX711_MEDAVG_MODE; };
+  uint8_t  get_mode()         { return _mode; };
  
   // corrected for offset
   float    get_value(uint8_t times = 1);
   // converted to proper units.
   float    get_units(uint8_t times = 1);
 
+
   // TARE
   // call tare to calibrate zero
   void     tare(uint8_t times = 10)     { _offset = read_average(times); };
   float    get_tare()                   { return -_offset * _scale; };
   bool     tare_set()                   { return _offset != 0; };
+
 
   // CORE "CONSTANTS" -> read datasheet
   // GAIN values: 128, 64 32  [only 128 tested & verified]
@@ -78,6 +92,7 @@ public:
   void     set_offset(long offset = 0)  { _offset = offset; };
   long     get_offset()                 { return _offset; };
 
+
   // CALIBRATION
   // clear the scale
   // call tare() to set the zero offset
@@ -86,17 +101,21 @@ public:
   // scale is calculated.
   void     calibrate_scale(uint16_t weight, uint8_t times = 10);
 
+
   // POWER MANAGEMENT
   void     power_down();
   void     power_up();
 
+
   // TIME OF LAST READ
   uint32_t last_read()                  { return _lastRead; };
+
 
   // PRICING  (idem calories?)
   float    get_price(uint8_t times = 1) { return get_units(times) * _price; };
   void     set_unit_price(float price)  { _price = price; };
   float    get_unit_price()             { return _price; };
+
 
 private:
   uint8_t  _dataPin;

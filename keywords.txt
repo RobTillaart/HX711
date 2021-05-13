@@ -15,6 +15,12 @@ wait_ready_timeout	KEYWORD2
 read	KEYWORD2
 read_average	KEYWORD2
 read_median	KEYWORD2
+read_medavg	KEYWORD2
+
+set_average_mode	KEYWORD2
+set_median_mode	KEYWORD2
+set_medavg_mode	KEYWORD2
+get_mode	KEYWORD2
 
 get_value	KEYWORD2
 get_units	KEYWORD2

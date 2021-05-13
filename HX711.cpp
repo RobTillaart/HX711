@@ -21,6 +21,7 @@ HX711::HX711()
 
 HX711::~HX711() {}
 
+
 void HX711::begin(uint8_t dataPin, uint8_t clockPin)
 {
   _dataPin = dataPin;
@@ -33,6 +34,7 @@ void HX711::begin(uint8_t dataPin, uint8_t clockPin)
   reset();
 }
 
+
 void HX711::reset()
 {
   _offset = 0;
@@ -41,10 +43,12 @@ void HX711::reset()
   _mode = HX711_AVERAGE_MODE;
 }
 
+
 bool HX711::is_ready()
 {
   return digitalRead(_dataPin) == LOW;
 }
+
 
 float HX711::read() 
 {
@@ -86,11 +90,13 @@ float HX711::read()
   return 1.0 * v.value;
 }
 
+
 // assumes tare() has been set.
 void HX711::calibrate_scale(uint16_t weight, uint8_t times)
 {
   _scale = (1.0 * weight) / (read_average(times) - _offset);
 }
+
 
 void HX711::wait_ready(uint32_t ms) 
 {
@@ -99,6 +105,7 @@ void HX711::wait_ready(uint32_t ms)
     delay(ms);
   }
 }
+
 
 bool HX711::wait_ready_retry(uint8_t retries, uint32_t ms) 
 {
@@ -121,8 +128,10 @@ bool HX711::wait_ready_timeout(uint32_t timeout, uint32_t ms)
   return false;
 }
 
+
 float HX711::read_average(uint8_t times) 
 {
+  if (times < 1) times = 1;
   float sum = 0;
   for (uint8_t i = 0; i < times; i++) 
   {
@@ -131,6 +140,7 @@ float HX711::read_average(uint8_t times)
   }
   return sum / times;
 }
+
 
 float HX711::read_median(uint8_t times) 
 {
@@ -146,6 +156,34 @@ float HX711::read_median(uint8_t times)
   if (times & 0x01) return s[times/2];
   return (s[times/2] + s[times/2+1])/2;
 }
+
+
+float HX711::read_medavg(uint8_t times) 
+{
+  if (times > 15) times = 15;
+  if (times < 3)  times = 3;
+  float s[15];
+  for (uint8_t i = 0; i < times; i++) 
+  {
+    s[i] = read();
+    yield();
+  }
+  _insertSort(s, times);
+  float sum = 0;
+  // iterate over 1/4 to 3/4 of the array
+  uint8_t cnt = 0;
+  uint8_t first = (times + 2) / 4;
+  uint8_t last  = times - first - 1;
+  for (uint8_t i = first; i <= last; i++)  // !! include last too
+  {
+    sum += s[i];
+    cnt++;
+  }
+  return sum/cnt;
+  if (times & 0x01) return s[times/2];
+  return (s[times/2] + s[times/2+1])/2;
+}
+
 
 void HX711::_insertSort(float * ar, uint8_t n)
 {
@@ -169,13 +207,18 @@ void HX711::_insertSort(float * ar, uint8_t n)
 float HX711::get_value(uint8_t times) 
 {
   float raw;
-  if (_mode == HX711_AVERAGE_MODE)
+  switch(_mode)
   {
-    raw = read_average(times);
-  }
-  else
-  {
-    raw = read_median(times);
+    case HX711_MEDAVG_MODE:
+      raw = read_medavg(times);
+      break;
+    case HX711_MEDIAN_MODE:
+      raw = read_median(times);
+      break;
+    case HX711_AVERAGE_MODE:
+    default:
+      raw = read_average(times);
+      break;
   }
   return raw - _offset;
 };
@@ -187,11 +230,13 @@ float HX711::get_units(uint8_t times)
   return units;
 };
 
+
 void HX711::power_down() 
 {
   digitalWrite(_clockPin, LOW);
   digitalWrite(_clockPin, HIGH);
 }
+
 
 void HX711::power_up() 
 {
