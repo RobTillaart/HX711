@@ -19,8 +19,9 @@
 
 
 const uint8_t HX711_AVERAGE_MODE = 0x00;
+// in median mode only between 3 and 15 samples are allowed.
 const uint8_t HX711_MEDIAN_MODE = 0x01;
-// average of the middle elements
+// medavg = average of the middle "half" of sorted elements
 // in medavg mode only between 3 and 15 samples are allowed.
 const uint8_t HX711_MEDAVG_MODE = 0x02;
 
