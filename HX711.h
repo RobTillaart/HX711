@@ -87,8 +87,8 @@ public:
   void     set_gain(uint8_t gain = 128) { _gain = gain; };
   uint8_t  get_gain()                   { return _gain; };
   // SCALE > 0
-  void     set_scale(float scale = 1.0) { _scale = 1 / scale; };
-  float    get_scale()                  { return 1 / _scale; };
+  void     set_scale(float scale = 1.0) { _scale = 1.0 / scale; };
+  float    get_scale()                  { return 1.0 / _scale; };
   // OFFSET > 0
   void     set_offset(long offset = 0)  { _offset = offset; };
   long     get_offset()                 { return _offset; };
@@ -101,7 +101,8 @@ public:
   // call calibrate_scale(weight) 
   // scale is calculated.
   void     calibrate_scale(uint16_t weight, uint8_t times = 10);
-  void     callibrate_scale(uint16_t weight, uint8_t times = 10); // obsolete but just do not want to break interface yet
+  // obsolete typo but just do not want to break interface yet
+  void     callibrate_scale(uint16_t weight, uint8_t times = 10); 
 
 
   // POWER MANAGEMENT
@@ -115,8 +116,8 @@ public:
 
   // PRICING  (idem calories?)
   float    get_price(uint8_t times = 1) { return get_units(times) * _price; };
-  void     set_unit_price(float price)  { _price = price; };
-  float    get_unit_price()             { return _price; };
+  void     set_unit_price(float price = 1.0) { _price = price; };
+  float    get_unit_price() { return _price; };
 
 
 private:
@@ -130,7 +131,7 @@ private:
   float    _price    = 0;
   uint8_t  _mode     = 0;
 
-  void     _insertSort(float *, uint8_t);
+  void     _insertSort(float * array, uint8_t size);
 };
 
 // -- END OF FILE --

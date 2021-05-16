@@ -37,10 +37,11 @@ void HX711::begin(uint8_t dataPin, uint8_t clockPin)
 
 void HX711::reset()
 {
-  _offset = 0;
-  _scale = 1;
-  _gain = 128;
-  _mode = HX711_AVERAGE_MODE;
+  _offset   = 0;
+  _scale    = 1;
+  _gain     = 128;
+  _lastRead = 0;
+  _mode     = HX711_AVERAGE_MODE;
 }
 
 
@@ -190,11 +191,11 @@ float HX711::read_medavg(uint8_t times)
 }
 
 
-void HX711::_insertSort(float * ar, uint8_t n)
+void HX711::_insertSort(float * array, uint8_t size)
 {
   uint8_t t, z;
   float temp;
-  for (t = 1; t < n; t++) 
+  for (t = 1; t < size; t++) 
   {
     z = t;
     temp = ar[z];
