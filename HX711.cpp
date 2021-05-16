@@ -187,8 +187,6 @@ float HX711::read_medavg(uint8_t times)
     cnt++;
   }
   return sum/cnt;
-  if (times & 0x01) return s[times/2];
-  return (s[times/2] + s[times/2+1])/2;
 }
 
 
