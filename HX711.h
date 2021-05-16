@@ -100,6 +100,7 @@ public:
   // call calibrate_scale(weight) 
   // scale is calculated.
   void     calibrate_scale(uint16_t weight, uint8_t times = 10);
+  void     callibrate_scale(uint16_t weight, uint8_t times = 10); // obsolete but just do not want to break interface yet
 
 
   // POWER MANAGEMENT

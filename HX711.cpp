@@ -97,6 +97,13 @@ void HX711::calibrate_scale(uint16_t weight, uint8_t times)
   _scale = (1.0 * weight) / (read_average(times) - _offset);
 }
 
+// will be obsolete
+void HX711::callibrate_scale(uint16_t weight, uint8_t times = 10)
+{
+  calibrate_scale(weight, times); 
+};
+  
+
 
 void HX711::wait_ready(uint32_t ms) 
 {
