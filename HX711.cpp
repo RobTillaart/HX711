@@ -99,7 +99,7 @@ void HX711::calibrate_scale(uint16_t weight, uint8_t times)
 }
 
 // will be obsolete
-void HX711::callibrate_scale(uint16_t weight, uint8_t times = 10)
+void HX711::callibrate_scale(uint16_t weight, uint8_t times)
 {
   calibrate_scale(weight, times); 
 };
@@ -198,13 +198,13 @@ void HX711::_insertSort(float * array, uint8_t size)
   for (t = 1; t < size; t++) 
   {
     z = t;
-    temp = ar[z];
-    while( (z > 0) && (temp < ar[z - 1] )) 
+    temp = array[z];
+    while( (z > 0) && (temp < array[z - 1] )) 
     {
-      ar[z] = ar[z - 1];
+      array[z] = array[z - 1];
       z--;
     }
-    ar[z] = temp;
+    array[z] = temp;
     yield();
   }
 }
