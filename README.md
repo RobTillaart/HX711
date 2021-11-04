@@ -1,5 +1,7 @@
 
 [![Arduino CI](https://github.com/RobTillaart/HX711/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/RobTillaart/HX711/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/HX711/actions/workflows/arduino-lint.yml)
+[![JSON check](https://github.com/RobTillaart/HX711/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/HX711/actions/workflows/jsoncheck.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/HX711/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/HX711.svg?maxAge=3600)](https://github.com/RobTillaart/HX711/releases)
 
@@ -52,7 +54,7 @@ For weight conversion functions see https://github.com/RobTillaart/weight
 
 ### Scale values for loadcells
 
-These scale values worked pretty well with a set of loadcells, 
+These scale values worked pretty well with a set of load-cells, 
 Use calibrate to find your values.
 
 - 5 KG loadcell   scale.set_scale(420.52); 
@@ -89,9 +91,9 @@ Use calibrate to find your values.
 
 ### Temperature
 
-Loadcells do have a temperature related error.
+Load-cells do have a temperature related error. (check datasheet)
 This can be reduced by doing the calibration and take the tare 
-at the temperature one also does the measurements.
+at the temperature one also uses for the measurements.
 
 Another way to handle this is to add a good temperature sensor
 (e.g. DS18B20, SHT85) and compensate for the temperature
@@ -101,3 +103,12 @@ differences in your code.
 ## Operation
 
 See examples
+
+
+## Future
+
+- update documentation
+- add examples
+- test different load-cells
+
+
