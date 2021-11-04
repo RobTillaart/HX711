@@ -13,12 +13,11 @@ Arduino library for HX711 24 bit ADC  used for load cells and scales.
 
 ## Description
 
-This HX711 library has an interface which is a superset of a library made by bogde.
+This HX711 library has an interface which is a superset of a library made by Bogde.
 Some missing functions were added to get more info from the lib. 
 
-Another important difference is that this library uses floats. The 23 bits mantisse 
-of the IEE754 float matches the 24 bit ADC very well. Furthermore it gave a smaller
-footprint.
+Another important difference is that this library uses floats. 
+The 23 bits mantissa of the IEE754 float matches the 24 bit ADC very well. Furthermore it gave a smaller footprint.
 
 
 ## Main flow
@@ -39,14 +38,90 @@ Steps to take for calibration
 1. save the offset and scale for later use e.g. EEPROM.
 
 
-## Pricing
+## Interface
+
+
+#### Base
+
+- **HX711()** constructor
+- **~HX711();
+- **void begin(uint8_t dataPin, uint8_t clockPin)** sets a fixed gain 128 for now
+- **void reset()**
+- **bool is_ready()** checks if loadcell is ready to read.
+- **void wait_ready(uint32_t ms = 0)** wait until ready, check every ms
+- **bool wait_ready_retry(uint8_t retries = 3, uint32_t ms = 0)** wait max retries.
+- **bool wait_ready_timeout(uint32_t timeout = 1000, uint32_t ms = 0)** wait max timeout.
+- **float read()** raw read.
+- **float read_average(uint8_t times = 10)** get average of times raw reads. times = 1 or more.
+- **float read_median(uint8_t times = 7)** get median of multiple raw reads. 
+times = 3..15 - odd numbers preferred.
+- **float read_medavg(uint8_t times = 7)** get average of "middle half" of multiple raw reads.
+times = 3..15 - odd numbers preferred.
+- **float read_runavg(uint8_t times = 7, float alpha = 0.5)** get running average over times measurements.
+The weight alpha can be set to any value between 0 and 1, times >= 1.
+- **uint32_t last_read()** returns timestamp in milliseconds
+
+
+#### Gain
+
+read datasheet - see also Connections HX711 below
+- **void set_gain(uint8_t gain = 128)** values: 128 (default), 64 32  - only 128 tested & verified
+- **uint8_t get_gain()** returns set gain.
+
+
+#### Mode 
+
+Get and set the operational mode for get_value() and indirect get_units().
+In median and medavg mode only 3..15 samples are allowed.
+- **void set_average_mode()**
+- **void set_median_mode()**
+- **void set_medavg_mode()**
+- **void set_runavg_mode()** default alpha = 0.5
+- **uint8_t  get_mode()**
+
+
+#### get values corrected for offset and scale
+
+- **float get_value(uint8_t times = 1)** read value, corrected for offset.
+- **float get_units(uint8_t times = 1)** read value, converted to proper units.
+- **void set_scale(float scale = 1.0)** set scale factor; scale > 0
+- **float get_scale()** returns set scale factor.
+- **void set_offset(long offset = 0)** set offset
+- **long get_offset()**
+
+
+#### TARE & CALIBRATION
+
+Steps to take for calibration
+1. clear the scale
+1. call tare() to set the zero offset
+1. put a known weight on the scale 
+1. call calibrate_scale(weight) 
+1. scale is calculated.
+1. save the offset and scale for later use e.g. EEPROM.
+
+- **void tare(uint8_t times = 10)** call tare to calibrate zero level
+- **float get_tare()**
+- **bool tare_set()**
+- **void calibrate_scale(uint16_t weight, uint8_t times = 10)**
+
+
+#### POWER MANAGEMENT
+
+- **void power_down()** idem
+- **void power_up()** idem
+
+
+#### Pricing
 
 Some price functions were added to make it easy to use this library
-for pricing goods or for educational purposes. These functions are under discussion
-if they will stay. Another set of function to add weights together didn't make it in 
-the 0.2.0 release, it is on a todo list.
-
+for pricing goods or for educational purposes. 
+These functions are under discussion if they will stay.
 For weight conversion functions see https://github.com/RobTillaart/weight
+
+- **float get_price(uint8_t times = 1)**
+- **void  set_unit_price(float price = 1.0)**
+- **float get_unit_price()**
 
 
 ## Notes
@@ -111,4 +186,8 @@ See examples
 - add examples
 - test different load-cells
 
+
+#### the adding scale
+
+- void weight_clr(), void weight_add(), float weight_get() - adding scale 
 
