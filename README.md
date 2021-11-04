@@ -17,7 +17,8 @@ This HX711 library has an interface which is a superset of a library made by Bog
 Some missing functions were added to get more info from the lib. 
 
 Another important difference is that this library uses floats. 
-The 23 bits mantissa of the IEE754 float matches the 24 bit ADC very well. Furthermore it gave a smaller footprint.
+The 23 bits mantissa of the IEE754 float matches the 24 bit ADC very well. 
+Furthermore it gave a smaller footprint.
 
 
 ## Main flow
@@ -44,11 +45,11 @@ Steps to take for calibration
 #### Base
 
 - **HX711()** constructor
-- **~HX711();
-- **void begin(uint8_t dataPin, uint8_t clockPin)** sets a fixed gain 128 for now
+- **~HX711()**
+- **void begin(uint8_t dataPin, uint8_t clockPin)** sets a fixed gain 128 for now.
 - **void reset()**
-- **bool is_ready()** checks if loadcell is ready to read.
-- **void wait_ready(uint32_t ms = 0)** wait until ready, check every ms
+- **bool is_ready()** checks if load-cell is ready to read.
+- **void wait_ready(uint32_t ms = 0)** wait until ready, check every ms.
 - **bool wait_ready_retry(uint8_t retries = 3, uint32_t ms = 0)** wait max retries.
 - **bool wait_ready_timeout(uint32_t timeout = 1000, uint32_t ms = 0)** wait max timeout.
 - **float read()** raw read.
@@ -59,7 +60,7 @@ times = 3..15 - odd numbers preferred.
 times = 3..15 - odd numbers preferred.
 - **float read_runavg(uint8_t times = 7, float alpha = 0.5)** get running average over times measurements.
 The weight alpha can be set to any value between 0 and 1, times >= 1.
-- **uint32_t last_read()** returns timestamp in milliseconds
+- **uint32_t last_read()** returns timestamp in milliseconds.
 
 
 #### Gain
@@ -76,7 +77,7 @@ In median and medavg mode only 3..15 samples are allowed.
 - **void set_average_mode()**
 - **void set_median_mode()**
 - **void set_medavg_mode()**
-- **void set_runavg_mode()** default alpha = 0.5
+- **void set_runavg_mode()** default alpha = 0.5.
 - **uint8_t  get_mode()**
 
 
@@ -84,10 +85,10 @@ In median and medavg mode only 3..15 samples are allowed.
 
 - **float get_value(uint8_t times = 1)** read value, corrected for offset.
 - **float get_units(uint8_t times = 1)** read value, converted to proper units.
-- **void set_scale(float scale = 1.0)** set scale factor; scale > 0
+- **void set_scale(float scale = 1.0)** set scale factor; scale > 0.
 - **float get_scale()** returns set scale factor.
-- **void set_offset(long offset = 0)** set offset
-- **long get_offset()**
+- **void set_offset(long offset = 0)** idem.
+- **long get_offset()** idem.
 
 
 #### TARE & CALIBRATION
@@ -101,15 +102,15 @@ Steps to take for calibration
 1. save the offset and scale for later use e.g. EEPROM.
 
 - **void tare(uint8_t times = 10)** call tare to calibrate zero level
-- **float get_tare()**
-- **bool tare_set()**
-- **void calibrate_scale(uint16_t weight, uint8_t times = 10)**
+- **float get_tare()** idem.
+- **bool tare_set()** checks if a tare has been set.
+- **void calibrate_scale(uint16_t weight, uint8_t times = 10)** idem.
 
 
 #### POWER MANAGEMENT
 
-- **void power_down()** idem
-- **void power_up()** idem
+- **void power_down()** idem.
+- **void power_up()** idem.
 
 
 #### Pricing
@@ -119,9 +120,9 @@ for pricing goods or for educational purposes.
 These functions are under discussion if they will stay.
 For weight conversion functions see https://github.com/RobTillaart/weight
 
-- **float get_price(uint8_t times = 1)**
-- **void  set_unit_price(float price = 1.0)**
-- **float get_unit_price()**
+- **float get_price(uint8_t times = 1)** idem.
+- **void  set_unit_price(float price = 1.0)** idem.
+- **float get_unit_price()** idem.
 
 
 ## Notes
