@@ -81,7 +81,9 @@ In median and medavg mode only 3..15 samples are allowed.
 - **uint8_t  get_mode()**
 
 
-#### get values corrected for offset and scale
+#### GET VALUES
+
+get values corrected for offset and scale
 
 - **float get_value(uint8_t times = 1)** read value, corrected for offset.
 - **float get_units(uint8_t times = 1)** read value, converted to proper units.
