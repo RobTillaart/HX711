@@ -78,7 +78,7 @@ In median and medavg mode only 3..15 samples are allowed.
 - **void set_median_mode()**
 - **void set_medavg_mode()**
 - **void set_runavg_mode()** default alpha = 0.5.
-- **uint8_t  get_mode()**
+- **uint8_t get_mode()**
 
 
 #### GET VALUES
