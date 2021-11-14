@@ -299,6 +299,7 @@ uint8_t _shiftIn()
     delayMicroseconds(1);               // keep duty cycle ~50%
     mask >>= 1;
   }
+  return value;
 }
 
 
