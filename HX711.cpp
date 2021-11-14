@@ -283,7 +283,7 @@ void HX711::power_up()
 
 //  MSB_FIRST optimized shiftIn
 //  see datasheet page 5 for timing
-uint8_t _shiftIn()
+uint8_t HX711::_shiftIn()
 {
   uint8_t value = 0;
   uint8_t mask = 0x80;
