@@ -13,6 +13,8 @@
 //  0.2.2   2021-05-10  add read_median(), fix typo, add mode operandi
 //  0.2.3   2021-05-26  add running_average() mode
 //  0.3.0   2021-11-14  fix #11 shiftIn timing
+//                      update build-CI, readme.md, badges
+
 
 
 #include "HX711.h"
@@ -29,10 +31,10 @@ HX711::~HX711() {}
 
 void HX711::begin(uint8_t dataPin, uint8_t clockPin)
 {
-  _dataPin = dataPin;
+  _dataPin  = dataPin;
   _clockPin = clockPin;
 
-  pinMode(_dataPin, INPUT);         // INPUT_PULLUP ?
+  pinMode(_dataPin, INPUT);
   pinMode(_clockPin, OUTPUT);
   digitalWrite(_clockPin, LOW);
 
