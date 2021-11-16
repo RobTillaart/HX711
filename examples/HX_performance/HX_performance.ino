@@ -56,6 +56,11 @@ void setup()
   delay(1000);
   measure(10);
 
+/*
+ * PERFORMANCE
+ * 100x get_units(1) = 9404352  (UNO)
+ * VAL: 0.05
+ */
   Serial.println("\nPERFORMANCE");
   start = micros();
   f = 0;
