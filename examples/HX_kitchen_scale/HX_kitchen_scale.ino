@@ -49,6 +49,8 @@ void setup()
   Serial.println(scale.get_units(10));
 
   Serial.println("\nScale is calibrated, press a key to continue");
+  // Serial.println(scale.get_scale());
+  // Serial.println(scale.get_offset());
   while(!Serial.available());
   while(Serial.available()) Serial.read();
 }
