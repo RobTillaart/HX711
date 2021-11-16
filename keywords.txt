@@ -1,6 +1,5 @@
 # Syntax Colouring Map For HX711
 
-
 # Data types (KEYWORD1)
 HX711	KEYWORD1
 

@@ -81,6 +81,7 @@ The weight alpha can be set to any value between 0 and 1, times >= 1.
 #### Gain
 
 read datasheet - see also Connections HX711 below
+
 - **void set_gain(uint8_t gain = 128)** values: 128 (default), 64 32  - only 128 tested & verified.
 - **uint8_t get_gain()** returns set gain.
 
@@ -154,7 +155,6 @@ Use calibrate to find your favourite values.
 - 20 KG load cell  scale.set_scale(127.15);
 
 
-
 ### Connections HX711
 
 - A+/A-  uses gain of 128 or 64
@@ -185,6 +185,7 @@ Use calibrate to find your favourite values.
 
 ### Temperature
 
+
 Load cells do have a temperature related error. (check datasheet)
 This can be reduced by doing the calibration and take the tare 
 at the temperature one also uses for the measurements.
@@ -205,7 +206,6 @@ See examples
 - add examples
 - test different load cells
 - optimize the build-in **ShiftIn()** function to improve performance again.
-
 
 
 #### the adding scale
