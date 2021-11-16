@@ -3,6 +3,7 @@
 # Data types (KEYWORD1)
 HX711	KEYWORD1
 
+
 # Methods and Functions (KEYWORD2)
 begin	KEYWORD2
 reset	KEYWORD2
@@ -49,6 +50,7 @@ last_read	KEYWORD2
 get_price	KEYWORD2
 set_unit_price	KEYWORD2
 get_unit_price	KEYWORD2
+
 
 # Instances (KEYWORD2)
 

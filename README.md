@@ -8,7 +8,7 @@
 
 # HX711
 
-Arduino library for HX711 24 bit ADC  used for load cells and scales.
+Arduino library for HX711 24 bit ADC used for load cells and scales.
 
 
 ## Description
@@ -19,6 +19,21 @@ Some missing functions were added to get more info from the lib.
 Another important difference is that this library uses floats. 
 The 23 bits mantissa of the IEE754 float matches the 24 bit ADC very well. 
 Furthermore it gave a smaller footprint.
+
+
+### Breaking change 0.3.0
+
+In issue #11 it became clear that the timing of the default **shiftIn()** function that
+reads the value of the internal ADC was too fast on some processor boards for the HX711.
+This resulted in missing the first = sign bit and value read could be a factor two
+higher than should. If one calibrated the sensor this would be compensated with the 
+factor that is derived in the calibration process. 
+
+In 0.3.0 a dedicated **shiftIn()** function is added into this library that uses hard
+coded delays to keep the timing of the clock within datasheet parameters. 
+This should guarantee that the sign bit is read correctly on all platforms. 
+Drawback is that reading the HX711 takes an ~50 extra microseconds.
+How much this affects performance is to be investigated.
 
 
 ## Main flow
@@ -44,11 +59,11 @@ Steps to take for calibration
 
 #### Base
 
-- **HX711()** constructor
+- **HX711()** constructor.
 - **~HX711()**
 - **void begin(uint8_t dataPin, uint8_t clockPin)** sets a fixed gain 128 for now.
-- **void reset()**
-- **bool is_ready()** checks if load-cell is ready to read.
+- **void reset()** set internal state to start condition.
+- **bool is_ready()** checks if load cell is ready to read.
 - **void wait_ready(uint32_t ms = 0)** wait until ready, check every ms.
 - **bool wait_ready_retry(uint8_t retries = 3, uint32_t ms = 0)** wait max retries.
 - **bool wait_ready_timeout(uint32_t timeout = 1000, uint32_t ms = 0)** wait max timeout.
@@ -66,7 +81,8 @@ The weight alpha can be set to any value between 0 and 1, times >= 1.
 #### Gain
 
 read datasheet - see also Connections HX711 below
-- **void set_gain(uint8_t gain = 128)** values: 128 (default), 64 32  - only 128 tested & verified
+
+- **void set_gain(uint8_t gain = 128)** values: 128 (default), 64 32  - only 128 tested & verified.
 - **uint8_t get_gain()** returns set gain.
 
 
@@ -78,10 +94,10 @@ In median and medavg mode only 3..15 samples are allowed.
 - **void set_median_mode()**
 - **void set_medavg_mode()**
 - **void set_runavg_mode()** default alpha = 0.5.
-- **uint8_t  get_mode()**
+- **uint8_t get_mode()**
 
 
-#### GET VALUES
+#### Get values
 
 get values corrected for offset and scale
 
@@ -93,7 +109,7 @@ get values corrected for offset and scale
 - **long get_offset()** idem.
 
 
-#### TARE & CALIBRATION
+#### Tare & calibration
 
 Steps to take for calibration
 1. clear the scale
@@ -109,7 +125,7 @@ Steps to take for calibration
 - **void calibrate_scale(uint16_t weight, uint8_t times = 10)** idem.
 
 
-#### POWER MANAGEMENT
+#### Power management
 
 - **void power_down()** idem.
 - **void power_up()** idem.
@@ -130,13 +146,13 @@ For weight conversion functions see https://github.com/RobTillaart/weight
 ## Notes
 
 
-### Scale values for loadcells
+### Scale values for load cells
 
-These scale values worked pretty well with a set of load-cells, 
-Use calibrate to find your values.
+These scale values worked pretty well with a set of load cells I have, 
+Use calibrate to find your favourite values.
 
-- 5 KG loadcell   scale.set_scale(420.52); 
-- 20 KG loadcell  scale.set_scale(127.15); 
+- 5 KG load cell   scale.set_scale(420.52);
+- 20 KG load cell  scale.set_scale(127.15);
 
 
 ### Connections HX711
@@ -147,29 +163,30 @@ Use calibrate to find your values.
 
 ### Connections
 
-| HX711 Pin | Color |
-|:----:|:----:|
-|  E+  |  red           |
-|  E-  |  black         |
-|  A-  |  white         |
-|  A+  |  green         |
-|  B-  |  not connected |
-|  B+  |  not connected |
+| HX711 Pin |  Colour        |
+|:---------:|:--------------:|
+|    E+     |  red           |
+|    E-     |  black         |
+|    A-     |  white         |
+|    A+     |  green         |
+|    B-     |  not connected |
+|    B+     |  not connected |
 
 
-| HX711 Pin | Color |
-|:----:|:----:|
-|  E+  | red           |
-|  E-  | black         |
-|  A-  | blue          |
-|  A+  | white         |
-|  B-  | not connected |
-|  B+  | not connected |
+| HX711 Pin |  Colour        |
+|:---------:|:--------------:|
+|    E+     |  red           |
+|    E-     |  black         |
+|    A-     |  blue          |
+|    A+     |  white         |
+|    B-     |  not connected |
+|    B+     |  not connected |
 
 
 ### Temperature
 
-Load-cells do have a temperature related error. (check datasheet)
+
+Load cells do have a temperature related error. (check datasheet)
 This can be reduced by doing the calibration and take the tare 
 at the temperature one also uses for the measurements.
 
@@ -187,7 +204,8 @@ See examples
 
 - update documentation
 - add examples
-- test different load-cells
+- test different load cells
+- optimize the build-in **ShiftIn()** function to improve performance again.
 
 
 #### the adding scale
