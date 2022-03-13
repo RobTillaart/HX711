@@ -16,7 +16,7 @@
 int addr = 0;
 #define EEPROM_SIZE 512
 
-bool forzado = true; //indica que queremos entrar en modo calibración
+bool forzado = false; //indica que queremos entrar en modo calibración
 HX711 scale;
 
 uint8_t dataPin  = 19;
@@ -44,7 +44,6 @@ long SaveLong(int addr, long param) {
   EEPROM.writeFloat(addr, param);//EEPROM.put(address, param);
   EEPROM.commit();
 }
-
 float LoadFloat(int addr) {
   float readParam;
   EEPROM.get(addr, readParam); //readParam=EEPROM.readFloat(address);

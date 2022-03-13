@@ -11,8 +11,6 @@
 
 HX711 scale;
 
-uint8_t dataPin  = 19;
-uint8_t clockPin = 18;
 
 float w1, w2, previous = 0;
 
