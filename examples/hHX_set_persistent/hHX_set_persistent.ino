@@ -8,7 +8,7 @@
 //scale.set_scale(14.18);
 
 #include "HX711.h"
-#include "EEPROM.h"
+#include <EEPROM.h>
 int eeAddress = 0;
 #define EEPROM_SIZE 100
 
