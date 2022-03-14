@@ -1,76 +1,61 @@
 
 //
 //    FILE: HX_set_persistent.ino
-//  AUTHOR: Felix Moli grao la base de Rob Tillaart
+//  AUTHOR: Felix Moli Grao la base de Rob Tillaart
 // PURPOSE: HX711 demo
-//     URL: https://github.com/Albalate/HX711
-
-
 
 //scale.set_offset(-186985);
 //scale.set_scale(14.18);
 
 #include "HX711.h"
-
 #include "EEPROM.h"
-int addr = 0;
-#define EEPROM_SIZE 512
+int eeAddress = 0;
+#define EEPROM_SIZE 100
 
-bool forzado = false; //indica que queremos entrar en modo calibración
+bool forced = false; //indicates that we want to enter calibration mode
 HX711 scale;
 
-uint8_t dataPin  = 19;
-uint8_t clockPin = 18;
+uint8_t dataPin = 6;
+uint8_t clockPin = 7;
+//uint8_t dataPin  = 19;//for esp32
+//uint8_t clockPin = 18;//for esp32
 
 //scale.set_offset(-181815);
 //scale.set_scale(13.79);
+struct Bascula {
+  float scala;
+  long offSet;
+};
 
-void StupEeprom() {
-  if (!EEPROM.begin(EEPROM_SIZE))
-  {
-    Serial.println("failed to initialise EEPROM"); delay(1000000);
-  }
-  Serial.println(" bytes read from Flash . Values are:");
-  for (int i = 0; i < EEPROM_SIZE; i++)
-  {
-    Serial.print(byte(EEPROM.read(i))); Serial.print(" ");
-  }
+Bascula bascula;
+
+void SaveStruct(int eeAddress, Bascula bascula) {
+  EEPROM.put(eeAddress, bascula);
+  Serial.println( "Save custom object to EEPROM: " );
+  Serial.println( bascula.scala );
+  Serial.println( bascula.offSet );
 }
-float SaveFloat(int addr, float param) {
-  EEPROM.writeFloat(addr, param);//EEPROM.put(address, param);
-  EEPROM.commit();
+Bascula LoadStruct(int eeAddress) {
+  EEPROM.get( eeAddress, bascula );
+  Serial.println( "Read custom object from EEPROM: " );
+  Serial.println( bascula.scala );
+  Serial.println( bascula.offSet );
+  return bascula;
 }
-long SaveLong(int addr, long param) {
-  EEPROM.writeFloat(addr, param);//EEPROM.put(address, param);
-  EEPROM.commit();
-}
-float LoadFloat(int addr) {
-  float readParam;
-  EEPROM.get(addr, readParam); //readParam=EEPROM.readFloat(address);
-  Serial.print("Read param = ");
-  Serial.println(readParam);
-  return readParam;
-}
-long LoadLong(int addr) {
-  long readParam;
-  EEPROM.get(addr, readParam); //readParam=EEPROM.readFloat(address);
-  Serial.print("Read param = ");
-  Serial.println(readParam);
-  return readParam;
-}
+
 
 void setup()
 {
   Serial.begin(115200);
-  void StupEeprom();
-  float escala = LoadFloat(0);
-  long offsSet = LoadLong(100);
-  scale.set_scale(escala); //lee escala de la posicio 0 de la eeprom
-  scale.set_offset(offsSet); //lee offSet de la posicio 100 de la eeprom
 
-  scale.begin(dataPin, clockPin);// inicia la comunicación
+  bascula = LoadStruct(0);//load off eeprom 
 
-  if ((escala = 0.00) || (offsSet = 0) || (forzado = true)) {
+  scale.set_scale(bascula.scala); //read scale from eeprom position 0
+  scale.set_offset(bascula.offSet); //read offSet from eeprom position 100
+
+  scale.begin(dataPin, clockPin);// initiate communication
+
+  if ((bascula.scala = 0.00) || (bascula.offSet = 0) || (forced = true)) {
 
     Serial.print("UNITS: ");
     Serial.println(scale.get_units(10));
@@ -81,7 +66,8 @@ void setup()
 
     scale.tare();
     Serial.print("UNITS: ");
-    Serial.println(scale.get_units(10));
+    bascula.offSet=scale.get_units(10);
+    Serial.println(bascula.offSet);
 
 
     Serial.println("\nPut 1000 gram in the scale, press a key to continue");
@@ -90,7 +76,8 @@ void setup()
 
     scale.calibrate_scale(1000, 5);
     Serial.print("UNITS: ");
-    Serial.println(scale.get_units(10));
+    bascula.scala=scale.get_units(10);
+    Serial.println(bascula.scala);
 
     Serial.println("\nScale is calibrated, your calibration values:");
 
@@ -98,14 +85,13 @@ void setup()
     Serial.print("\nOffset \t");
     Serial.println(scaleOffset);
 
-    SaveLong( 100, scaleOffset);
-    EEPROM.end();
+
+    SaveStruct( 0, bascula);//Save to eeprom 
+
 
     float scaleFactor = scale.get_scale();
     Serial.print("Scale \t");
     Serial.println(scaleFactor);
-
-    SaveFloat( 0, scaleFactor);
 
     Serial.println("\nUse this code for setting zero and calibration factor permanently:");
 
@@ -120,14 +106,21 @@ void setup()
     while (!Serial.available());
     while (Serial.available()) Serial.read();
 
-    EEPROM.commit();
-    EEPROM.end();
-    ESP.restart();
-
   } else {
-    Serial.println("La bascula esta calibrada... pulse para continuar");
+    Serial.println("The scale is calibrated... press to continue");
+    
+    Serial.print("\nscale.set_offset(");
+    Serial.print(bascula.offSet);
+    Serial.println(");");
+    Serial.print("scale.set_scale(");
+    Serial.print(bascula.scala);
+    Serial.println(");");
+
     while (!Serial.available());
     while (Serial.available()) Serial.read();
+
+
+    
   }
 }
 void loop()
