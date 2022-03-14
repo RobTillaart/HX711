@@ -14,9 +14,10 @@ int eeAddress = 0;
 
 bool forced = false; //indicates that we want to enter calibration mode
 HX711 scale;
-
+byte buttonTare= 2;
 uint8_t dataPin = 6;
 uint8_t clockPin = 7;
+
 //uint8_t dataPin  = 19;//for esp32
 //uint8_t clockPin = 18;//for esp32
 
@@ -38,8 +39,8 @@ void SaveStruct(int eeAddress, Bascula bascula) {
 Bascula LoadStruct(int eeAddress) {
   EEPROM.get( eeAddress, bascula );
   Serial.println( "Read custom object from EEPROM: " );
-  Serial.println( bascula.scala );
-  Serial.println( bascula.offSet );
+  Serial.print("scale: ");Serial.println( bascula.scala );
+  Serial.print("offset: ");Serial.println( bascula.offSet );
   return bascula;
 }
 
@@ -47,15 +48,14 @@ Bascula LoadStruct(int eeAddress) {
 void setup()
 {
   Serial.begin(115200);
-
+  pinMode(buttonTare, INPUT_PULLUP);
   bascula = LoadStruct(0);//load off eeprom 
 
   scale.set_scale(bascula.scala); //read scale from eeprom position 0
   scale.set_offset(bascula.offSet); //read offSet from eeprom position 100
-
   scale.begin(dataPin, clockPin);// initiate communication
 
-  if ((bascula.scala = 0.00) || (bascula.offSet = 0) || (forced = true)) {
+  if ((bascula.scala == 0.00) || (bascula.offSet == 0) || (forced == true)) {
 
     Serial.print("UNITS: ");
     Serial.println(scale.get_units(10));
@@ -85,10 +85,6 @@ void setup()
     Serial.print("\nOffset \t");
     Serial.println(scaleOffset);
 
-
-    SaveStruct( 0, bascula);//Save to eeprom 
-
-
     float scaleFactor = scale.get_scale();
     Serial.print("Scale \t");
     Serial.println(scaleFactor);
@@ -106,25 +102,28 @@ void setup()
     while (!Serial.available());
     while (Serial.available()) Serial.read();
 
+//scale.set_offset(-88627);
+//scale.set_scale(101.05);
+
+    bascula.scala=scaleFactor;
+    bascula.offSet=scaleOffset; 
+    SaveStruct( 0, bascula);//Save to eeprom 
+  
   } else {
     Serial.println("The scale is calibrated... press to continue");
-    
-    Serial.print("\nscale.set_offset(");
-    Serial.print(bascula.offSet);
-    Serial.println(");");
-    Serial.print("scale.set_scale(");
-    Serial.print(bascula.scala);
-    Serial.println(");");
-
     while (!Serial.available());
     while (Serial.available()) Serial.read();
-
-
-    
+    scale.set_offset(bascula.offSet);
+    scale.set_scale(bascula.scala);
   }
 }
 void loop()
 {
+  if (digitalRead(buttonTare)==false){
+      scale.tare();
+      delay(500);
+       }
+
   Serial.print("UNITS: ");
   Serial.println(scale.get_units(15));
   delay(250);
