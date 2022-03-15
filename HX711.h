@@ -50,12 +50,12 @@ public:
   //  max timeout
   bool     wait_ready_timeout(uint32_t timeout = 1000, uint32_t ms = 0);
 
+  //  raw read
+  float    read();
 
-  float    read();//  raw read
-
-
-  float    read_average(uint8_t times = 10);//  get average of multiple raw reads //  times = 1 or more
-
+  //  get average of multiple raw reads
+  //  times = 1 or more
+  float    read_average(uint8_t times = 10);
   //  get median of multiple raw reads
   //  times = 3..15 - odd numbers preferred
   float    read_median(uint8_t times = 7);
