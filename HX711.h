@@ -52,10 +52,10 @@ public:
 
   //  raw read
   float    read();
+
   //  get average of multiple raw reads
   //  times = 1 or more
   float    read_average(uint8_t times = 10);
-
   //  get median of multiple raw reads
   //  times = 3..15 - odd numbers preferred
   float    read_median(uint8_t times = 7);
