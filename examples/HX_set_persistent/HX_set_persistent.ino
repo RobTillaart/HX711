@@ -4,22 +4,27 @@
 //  AUTHOR: Felix Moli Grao la base de Rob Tillaart
 // PURPOSE: HX711 demo
 
+
 //scale.set_offset(-186985);
 //scale.set_scale(14.18);
 
+
 #include "HX711.h"
 #include <EEPROM.h>
+
+
 int eeAddress = 0;
 #define EEPROM_SIZE 100
 
-bool forced = false; //indicates that we want to enter calibration mode
+
+bool forced = false; // indicates that we want to enter calibration mode
 HX711 scale;
 byte buttonTare= 2;
+
 uint8_t dataPin = 6;
 uint8_t clockPin = 7;
-
-//uint8_t dataPin  = 19;//for esp32
-//uint8_t clockPin = 18;//for esp32
+//uint8_t dataPin  = 19;    // for esp32
+//uint8_t clockPin = 18;    // for esp32
 
 //scale.set_offset(-181815);
 //scale.set_scale(13.79);
@@ -36,6 +41,7 @@ void SaveStruct(int eeAddress, Bascula bascula) {
   Serial.println( bascula.scala );
   Serial.println( bascula.offSet );
 }
+
 Bascula LoadStruct(int eeAddress) {
   EEPROM.get( eeAddress, bascula );
   Serial.println( "Read custom object from EEPROM: " );
@@ -117,6 +123,8 @@ void setup()
     scale.set_scale(bascula.scala);
   }
 }
+
+
 void loop()
 {
   if (digitalRead(buttonTare)==false){
