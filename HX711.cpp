@@ -109,7 +109,6 @@ float HX711::read()
 }
 
 
-
 bool HX711::set_gain(uint8_t gain) 
 {
   switch(gain)
@@ -118,16 +117,17 @@ bool HX711::set_gain(uint8_t gain)
     case 64:      //  channel A
     case 128:     //  channel A
       _gain = gain;
+      //  read();
       return true;
   }
   return false;   //  unchanged
-};
+}
   
 
 uint8_t HX711::get_gain()
 {
   return _gain;
-};
+}
 
 
 //  assumes tare() has been set.

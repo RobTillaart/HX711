@@ -101,11 +101,12 @@ Get and set the operational mode for get_value() and indirect get_units().
 In **HX711_MEDIAN_MODE** and **HX711_MEDAVG_MODE** mode only 3..15 samples are allowed.
 
 - **void set_raw_mode()** - will cause **read()** to be called only one time!
-- **void set_average_mode()**
-- **void set_median_mode()**
-- **void set_medavg_mode()**
+- **void set_average_mode()** take the average of n measurements.
+- **void set_median_mode()** take the median of n measurements.
+- **void set_medavg_mode()** take the average of n/2 median measurements.
 - **void set_runavg_mode()** default alpha = 0.5.
-- **uint8_t get_mode()**
+- **uint8_t get_mode()** returns current set mode.
+Default is **HX711_AVERAGE_MODE**
 
 Constants (see .h file for actual value)
 
@@ -180,11 +181,7 @@ Use calibrate to find your favourite values.
 - A+/A-  uses gain of 128 or 64
 - B+/B-  uses gain of 32
 
-
-### Connections
-
-Colour scheme of two break-out boards.
-
+Colour scheme wires of two boards.
 
 | HX711 Pin |  Colour        |
 |:---------:|:--------------:|
@@ -224,8 +221,10 @@ See examples
 
 ## Future
 
+
 #### must
 - decide if **set_gain()** will include **read()**
+
 
 #### should
 - update documentation
@@ -235,11 +234,13 @@ See examples
   - investigate the need of yield after interrupts
   - investigate blocking loop at begin of read()
 
+
 #### could
 - test different load cells
 - make enum of the MODE's
+- move code to .cpp
+
 
 #### the adding scale
-
 - void weight_clr(), void weight_add(), float weight_get() - adding scale 
 
