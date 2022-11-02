@@ -2,20 +2,20 @@
 //
 //    FILE: HX711.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.3
+// VERSION: 0.3.4
 // PURPOSE: Library for load cells for Arduino
 //     URL: https://github.com/RobTillaart/HX711
 //
 // HISTORY: see CHANGELOG.md
 //
-// NOTES
-// Superset of interface of HX711 class of Bogde
-// float instead of long as float has 23 bits mantissa.
+//  NOTES
+//  Superset of interface of HX711 class of Bogde
+//  float instead of long as float has 23 bits mantissa.
 
 
 #include "Arduino.h"
 
-#define HX711_LIB_VERSION               (F("0.3.3"))
+#define HX711_LIB_VERSION               (F("0.3.4"))
 
 
 const uint8_t HX711_AVERAGE_MODE = 0x00;

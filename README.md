@@ -89,7 +89,7 @@ Read datasheet - see also Connections HX711 below.
 #### Mode 
 
 Get and set the operational mode for get_value() and indirect get_units().
-In median and medavg mode only 3..15 samples are allowed.
+In **HX711_MEDIAN_MODE** and **HX711_MEDAVG_MODE** mode only 3..15 samples are allowed.
 
 - **void set_raw_mode()** - will cause **read()** to be called only one time!
 - **void set_average_mode()**
