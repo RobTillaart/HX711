@@ -8,7 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.3.4]
 - simplified changelog
 - add RP2040 to build-CI
-- ...
+- refactored **set_gain()** to return bool to confirm valid parameter.
+- updated readme.md
 
 
 ## [0.3.3] - 2022-03-16

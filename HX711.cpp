@@ -77,10 +77,19 @@ float HX711::read()
   v.data[0] = _shiftIn();
 
   //  TABLE 3 page 4 datasheet
+  //
+  //  CLOCK      CHANNEL      GAIN      m
+  //  ------------------------------------
+  //   25           A         128       1
+  //   26           B          32       2
+  //   27           A          64       3
+  //
   //  only default verified, so other values not supported yet
-  uint8_t m = 1;   //  default _gain == 128
-  if (_gain == 64) m = 3;
-  if (_gain == 32) m = 2;
+  //  selection goes through the set_gain(gain)
+  //
+  uint8_t m = 1;             //  channel A
+  if (_gain == 64) m = 3;    //  channel A
+  if (_gain == 32) m = 2;    //  channel B
 
   while (m > 0)
   {
@@ -98,6 +107,27 @@ float HX711::read()
   _lastRead = millis();
   return 1.0 * v.value;
 }
+
+
+
+bool HX711::set_gain(uint8_t gain) 
+{
+  switch(gain)
+  {
+    case 32:      //  channel B
+    case 64:      //  channel A
+    case 128:     //  channel A
+      _gain = gain;
+      return true;
+  }
+  return false;   //  unchanged
+};
+  
+
+uint8_t HX711::get_gain()
+{
+  return _gain;
+};
 
 
 //  assumes tare() has been set.

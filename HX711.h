@@ -100,8 +100,10 @@ public:
 
   //  CORE "CONSTANTS" -> read datasheet
   //  GAIN values: 128, 64 32  [only 128 tested & verified]
-  void     set_gain(uint8_t gain = 128) { _gain = gain; };
-  uint8_t  get_gain()                   { return _gain; };
+  //  return true   ==> if new gain is valid
+  //  returns false ==>  new gain is invalid ==> unchanged
+  bool     set_gain(uint8_t gain = 128);
+  uint8_t  get_gain();
   //  SCALE > 0
   void     set_scale(float scale = 1.0) { _scale = 1.0 / scale; };
   float    get_scale()                  { return 1.0 / _scale; };

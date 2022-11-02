@@ -78,12 +78,21 @@ The weight alpha can be set to any value between 0 and 1, times >= 1.
 - **uint32_t last_read()** returns timestamp in milliseconds.
 
 
-#### Gain
+#### Gain + channel
 
 Read datasheet - see also Connections HX711 below.
 
-- **void set_gain(uint8_t gain = 128)** values: 128 (default), 64 32  - only 128 tested & verified.
+- **bool set_gain(uint8_t gain = 128)** values: 128 (default), 64 32  - only 128 tested & verified.
 - **uint8_t get_gain()** returns set gain.
+
+Note: to be tested
+
+The selection of channels + gain is not very difficult. 
+By setting the gain to 128, 64 or 32 the gain and the channel is selected, 
+however one must do at least one **read()** to forward this setting to the HX711.
+If one uses an invalid value for the parameter gain, the channel and gain is not changed.
+
+In the future this extra **read()** might be build into the **set_gain()** function.
 
 
 #### Mode 
@@ -174,6 +183,9 @@ Use calibrate to find your favourite values.
 
 ### Connections
 
+Colour scheme of two break-out boards.
+
+
 | HX711 Pin |  Colour        |
 |:---------:|:--------------:|
 |    E+     |  red           |
@@ -196,7 +208,6 @@ Use calibrate to find your favourite values.
 
 ### Temperature
 
-
 Load cells do have a temperature related error. (check datasheet)
 This can be reduced by doing the calibration and take the tare 
 at the temperature one also uses for the measurements.
@@ -213,16 +224,20 @@ See examples
 
 ## Future
 
+#### must
+- decide if **set_gain()** will include **read()**
+
+#### should
 - update documentation
 - add examples
-- test different load cells
 - optimize the build-in **ShiftIn()** function to improve performance again.
 - investigate read()
   - investigate the need of yield after interrupts
   - investigate blocking loop at begin of read()
+
+#### could
+- test different load cells
 - make enum of the MODE's
-
-
 
 #### the adding scale
 
