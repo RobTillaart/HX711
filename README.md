@@ -84,6 +84,10 @@ Read datasheet - see also Connections HX711 below.
 
 - **bool set_gain(uint8_t gain = 128)** values: 128 (default), 64 32  - only 128 tested & verified.
 - **uint8_t get_gain()** returns set gain.
+- **bool set_chanA_gain128()** wrapper around set_gain(128)
+- **bool set_chanA_gain64()** wrapper around set_gain(64)
+- **bool set_chanB_gain32()** wrapper around set_gain(32)
+
 
 Note: to be tested
 
