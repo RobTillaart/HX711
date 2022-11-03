@@ -111,13 +111,14 @@ float HX711::read()
 
 bool HX711::set_gain(uint8_t gain) 
 {
+  if (_gain == gain) return true;  //  nothing changed
   switch(gain)
   {
     case 32:      //  channel B
     case 64:      //  channel A
     case 128:     //  channel A
       _gain = gain;
-      //  read();
+      read();     //  next user read() is from right channel / gain
       return true;
   }
   return false;   //  unchanged
@@ -127,6 +128,24 @@ bool HX711::set_gain(uint8_t gain)
 uint8_t HX711::get_gain()
 {
   return _gain;
+}
+
+
+bool HX711::set_chanA_gain128()
+{
+  return set_gain(128);
+}
+
+
+bool HX711::set_chanA_gain64()
+{
+  return set_gain(64);
+}
+
+
+bool HX711::set_chanB_gain32()
+{
+  return set_gain(32);
 }
 
 

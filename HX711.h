@@ -99,14 +99,24 @@ public:
 
 
   //  CORE "CONSTANTS" -> read datasheet
-  //  GAIN values: 128, 64 32  [only 128 tested & verified]
+  //  CHANNEL      GAIN   notes
+  //  -------------------------------------
+  //     A         128    default, tested
+  //     B          32
+  //     A          64
+
   //  return true   ==> if new gain is valid
   //  returns false ==>  new gain is invalid ==> unchanged
   bool     set_gain(uint8_t gain = 128);
   uint8_t  get_gain();
+  bool     set_chanA_gain128();  //  wrapper around set_gain(128)
+  bool     set_chanA_gain64();   //  wrapper around set_gain(64)
+  bool     set_chanB_gain32();   //  wrapper around set_gain(32)
+
   //  SCALE > 0
   void     set_scale(float scale = 1.0) { _scale = 1.0 / scale; };
   float    get_scale()                  { return 1.0 / _scale; };
+
   //  OFFSET > 0
   void     set_offset(long offset = 0)  { _offset = offset; };
   long     get_offset()                 { return _offset; };

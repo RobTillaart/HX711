@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - simplified changelog
 - add RP2040 to build-CI
 - refactored **set_gain()** to return bool to confirm valid parameter.
+- add set_chanA_gain128() - wrapper
+- add set_chanA_gain64()  - wrapper
+- add set_chanB_gain32()  - wrapper
 - updated readme.md
 
 
