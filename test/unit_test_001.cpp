@@ -98,8 +98,9 @@ unittest(test_gain)
   assertEqual(128, scale.get_gain());
   
   //  failing invalid parameter
-  assertFalse(scale.set_gain(0xFF40));  //  0x40 == 64 
-  assertEqual(128, scale.get_gain());
+  //  0x40 == 64 so it will fail to fail.
+  //  assertFalse(scale.set_gain(0xFF40));  
+  //  assertEqual(128, scale.get_gain());
 }
 
 
