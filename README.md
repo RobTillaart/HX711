@@ -13,11 +13,11 @@ Arduino library for HX711 24 bit ADC used for load cells and scales.
 
 ## Description
 
-This HX711 library has an interface which is a superset of a library by [Bogde](https://github.com/bogde/HX711)
+This HX711 library has an interface which is a superset of a library by [Bogde](https://github.com/bogde/HX711).
 Some missing functions were added to get more info from the library. 
 
 Another important difference is that this library uses floats. 
-The 23 bits mantissa of the IEE754 float matches the 24 bit ADC very well. 
+The 23 bits mantissa of the IEEE754 float matches the 24 bit ADC very well. 
 Furthermore using floats gave a smaller footprint on the Arduino UNO.
 
 
@@ -25,12 +25,12 @@ Furthermore using floats gave a smaller footprint on the Arduino UNO.
 
 In issue #11 it became clear that the timing of the default **shiftIn()** function to 
 read the value of the internal ADC was too fast on some processor boards for the HX711.
-This resulted in missing the first = sign bit or the value read could be a factor two
+This resulted in missing the first (= sign) bit or the value read could be a factor two
 higher than it should. If one calibrated the sensor this would be compensated with the 
 factor that is derived in the calibration process.
 
 In 0.3.0 a dedicated **shiftIn()** function is added into this library that uses hard
-coded delays to keep the timing of the clock within HX711 datasheet parameters. 
+coded delayMicroseconds to keep the timing of the clock within HX711 datasheet parameters. 
 This should guarantee that the sign bit is always read correctly on all platforms. 
 Drawback is that reading the HX711 takes an extra 50-55 microseconds.
 How much this affects performance is to be investigated.
@@ -89,11 +89,12 @@ Constants (see .h file)
 - **HX711_CHANNEL_B_GAIN_32 = 32**  Note fixed gain for channel B.
 
 
+The selection of channels + gain is straightforward. 
+
 - **bool set_gain(uint8_t gain = 128)** values: 128 (default), 64 32.
 If one uses an invalid value for the parameter gain, the channel and gain is not changed.
 - **uint8_t get_gain()** returns set gain (128, 64 or 32).
 
-The selection of channels + gain is straightforward. 
 By setting the gain to one of the three constants the gain and the channel is selected.
 The **set_gain()** does a dummy read if gain has changed so the next call to **read()** 
 will return info from the selected channel/gain.
