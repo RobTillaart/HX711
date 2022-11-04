@@ -82,21 +82,20 @@ The weight alpha can be set to any value between 0 and 1, times >= 1.
 
 Read datasheet - see also Connections HX711 below.
 
-- **bool set_gain(uint8_t gain = 128)** values: 128 (default), 64 32  - only 128 tested & verified.
-- **uint8_t get_gain()** returns set gain.
-- **bool set_chanA_gain128()** wrapper around set_gain(128)
-- **bool set_chanA_gain64()** wrapper around set_gain(64)
-- **bool set_chanB_gain32()** wrapper around set_gain(32)
+Constants (see .h file for actual value)
+
+- **HX711_CHANNEL_A_GAIN_128 = 128**  This is the default
+- **HX711_CHANNEL_A_GAIN_64 = 64**
+- **HX711_CHANNEL_B_GAIN_32 = 32**  Note fixed gain for channel B
 
 
-Note: to be tested
-
-The selection of channels + gain is not very difficult. 
-By setting the gain to 128, 64 or 32 the gain and the channel is selected, 
-however one must do at least one **read()** to forward this setting to the HX711.
+- **bool set_gain(uint8_t gain = 128)** values: 128 (default), 64 32.
 If one uses an invalid value for the parameter gain, the channel and gain is not changed.
+- **uint8_t get_gain()** returns set gain (128, 64 or 32).
 
-In the future this extra **read()** might be build into the **set_gain()** function.
+The selection of channels + gain is straightforward. 
+By setting the gain to one of the three constants the gain and the channel is selected.
+The **set_gain()** does a dummy read if gain has changed so the next call to **read()** will return the selected info.
 
 
 #### Mode 
@@ -229,7 +228,6 @@ See examples
 #### must
 - decide if **set_gain()** will include **read()**
 
-
 #### should
 - update documentation
 - add examples
@@ -237,6 +235,10 @@ See examples
 - investigate read()
   - investigate the need of yield after interrupts
   - investigate blocking loop at begin of read()
+- why store the gain as \_gain while the iterations 1..3 is used most
+  - read() less code (but changes from explanatory to vague)
+  - very small performance gain.
+  - code moves to both get/set_gain() so footprint might rise.
 
 
 #### could

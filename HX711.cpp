@@ -37,7 +37,7 @@ void HX711::reset()
 {
   _offset   = 0;
   _scale    = 1;
-  _gain     = 128;
+  _gain     = HX711_CHANNEL_A_GAIN_128;
   _lastRead = 0;
   _mode     = HX711_AVERAGE_MODE;
 }
@@ -80,16 +80,17 @@ float HX711::read()
   //
   //  CLOCK      CHANNEL      GAIN      m
   //  ------------------------------------
-  //   25           A         128       1
+  //   25           A         128       1    //  default
   //   26           B          32       2
   //   27           A          64       3
   //
-  //  only default verified, so other values not supported yet
+  //  only default 128 verified,
   //  selection goes through the set_gain(gain)
   //
-  uint8_t m = 1;             //  channel A
-  if (_gain == 64) m = 3;    //  channel A
-  if (_gain == 32) m = 2;    //  channel B
+  uint8_t m = 1;              
+  if      (_gain == HX711_CHANNEL_A_GAIN_128) m = 1;    
+  else if (_gain == HX711_CHANNEL_A_GAIN_64)  m = 3;
+  else if (_gain == HX711_CHANNEL_B_GAIN_32)  m = 2;
 
   while (m > 0)
   {
@@ -114,9 +115,9 @@ bool HX711::set_gain(uint8_t gain)
   if (_gain == gain) return true;  //  nothing changed
   switch(gain)
   {
-    case 32:      //  channel B
-    case 64:      //  channel A
-    case 128:     //  channel A
+    case HX711_CHANNEL_B_GAIN_32:
+    case HX711_CHANNEL_A_GAIN_64:
+    case HX711_CHANNEL_A_GAIN_128:
       _gain = gain;
       read();     //  next user read() is from right channel / gain
       return true;
@@ -128,24 +129,6 @@ bool HX711::set_gain(uint8_t gain)
 uint8_t HX711::get_gain()
 {
   return _gain;
-}
-
-
-bool HX711::set_chanA_gain128()
-{
-  return set_gain(128);
-}
-
-
-bool HX711::set_chanA_gain64()
-{
-  return set_gain(64);
-}
-
-
-bool HX711::set_chanB_gain32()
-{
-  return set_gain(32);
 }
 
 

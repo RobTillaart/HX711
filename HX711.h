@@ -30,6 +30,12 @@ const uint8_t HX711_RUNAVG_MODE  = 0x03;
 const uint8_t HX711_RAW_MODE     = 0x04;
 
 
+//  supported values for set_gain()
+const uint8_t HX711_CHANNEL_A_GAIN_128 = 128;  // default
+const uint8_t HX711_CHANNEL_A_GAIN_64 = 64;
+const uint8_t HX711_CHANNEL_B_GAIN_32 = 32;
+
+
 class HX711
 {
 public:
@@ -102,16 +108,14 @@ public:
   //  CHANNEL      GAIN   notes
   //  -------------------------------------
   //     A         128    default, tested
-  //     B          32
   //     A          64
+  //     B          32
 
-  //  return true   ==> if new gain is valid
+  //  return true   ==>  if new gain is valid
   //  returns false ==>  new gain is invalid ==> unchanged
-  bool     set_gain(uint8_t gain = 128);
+  bool     set_gain(uint8_t gain = HX711_CHANNEL_A_GAIN_128);
   uint8_t  get_gain();
-  bool     set_chanA_gain128();  //  wrapper around set_gain(128)
-  bool     set_chanA_gain64();   //  wrapper around set_gain(64)
-  bool     set_chanB_gain32();   //  wrapper around set_gain(32)
+
 
   //  SCALE > 0
   void     set_scale(float scale = 1.0) { _scale = 1.0 / scale; };
