@@ -167,4 +167,6 @@ private:
   uint8_t  _shiftIn();
 };
 
-// -- END OF FILE --
+
+//  -- END OF FILE --
+

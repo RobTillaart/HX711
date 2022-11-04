@@ -87,8 +87,8 @@ float HX711::read()
   //  only default 128 verified,
   //  selection goes through the set_gain(gain)
   //
-  uint8_t m = 1;              
-  if      (_gain == HX711_CHANNEL_A_GAIN_128) m = 1;    
+  uint8_t m = 1;
+  if      (_gain == HX711_CHANNEL_A_GAIN_128) m = 1;
   else if (_gain == HX711_CHANNEL_A_GAIN_64)  m = 3;
   else if (_gain == HX711_CHANNEL_B_GAIN_32)  m = 2;
 
@@ -110,7 +110,10 @@ float HX711::read()
 }
 
 
-bool HX711::set_gain(uint8_t gain) 
+//  note: if parameter gain == 0xFF40 some compilers
+//  will map that to 0x40 == HX711_CHANNEL_A_GAIN_64;
+//  solution: use uint32_t or larger parameters everywhere.
+bool HX711::set_gain(uint8_t gain)
 {
   if (_gain == gain) return true;  //  nothing changed
   switch(gain)
@@ -122,9 +125,9 @@ bool HX711::set_gain(uint8_t gain)
       read();     //  next user read() is from right channel / gain
       return true;
   }
-  return false;   //  unchanged
+  return false;   //  unchanged, but incorrect value.
 }
-  
+
 
 uint8_t HX711::get_gain()
 {

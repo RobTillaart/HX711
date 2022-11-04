@@ -13,26 +13,26 @@ Arduino library for HX711 24 bit ADC used for load cells and scales.
 
 ## Description
 
-This HX711 library has an interface which is a superset of a library made by Bogde.
+This HX711 library has an interface which is a superset of a library by [Bogde](https://github.com/bogde/HX711)
 Some missing functions were added to get more info from the library. 
 
 Another important difference is that this library uses floats. 
 The 23 bits mantissa of the IEE754 float matches the 24 bit ADC very well. 
-Furthermore it gave a smaller footprint.
+Furthermore using floats gave a smaller footprint on the Arduino UNO.
 
 
 ### Breaking change 0.3.0
 
-In issue #11 it became clear that the timing of the default **shiftIn()** function that
-reads the value of the internal ADC was too fast on some processor boards for the HX711.
-This resulted in missing the first = sign bit and value read could be a factor two
-higher than should. If one calibrated the sensor this would be compensated with the 
-factor that is derived in the calibration process. 
+In issue #11 it became clear that the timing of the default **shiftIn()** function to 
+read the value of the internal ADC was too fast on some processor boards for the HX711.
+This resulted in missing the first = sign bit or the value read could be a factor two
+higher than it should. If one calibrated the sensor this would be compensated with the 
+factor that is derived in the calibration process.
 
 In 0.3.0 a dedicated **shiftIn()** function is added into this library that uses hard
-coded delays to keep the timing of the clock within datasheet parameters. 
-This should guarantee that the sign bit is read correctly on all platforms. 
-Drawback is that reading the HX711 takes an ~50 extra microseconds.
+coded delays to keep the timing of the clock within HX711 datasheet parameters. 
+This should guarantee that the sign bit is always read correctly on all platforms. 
+Drawback is that reading the HX711 takes an extra 50-55 microseconds.
 How much this affects performance is to be investigated.
 
 
@@ -82,11 +82,11 @@ The weight alpha can be set to any value between 0 and 1, times >= 1.
 
 Read datasheet - see also Connections HX711 below.
 
-Constants (see .h file for actual value)
+Constants (see .h file)
 
-- **HX711_CHANNEL_A_GAIN_128 = 128**  This is the default
+- **HX711_CHANNEL_A_GAIN_128 = 128**  This is the default in the constructor.
 - **HX711_CHANNEL_A_GAIN_64 = 64**
-- **HX711_CHANNEL_B_GAIN_32 = 32**  Note fixed gain for channel B
+- **HX711_CHANNEL_B_GAIN_32 = 32**  Note fixed gain for channel B.
 
 
 - **bool set_gain(uint8_t gain = 128)** values: 128 (default), 64 32.
@@ -95,23 +95,15 @@ If one uses an invalid value for the parameter gain, the channel and gain is not
 
 The selection of channels + gain is straightforward. 
 By setting the gain to one of the three constants the gain and the channel is selected.
-The **set_gain()** does a dummy read if gain has changed so the next call to **read()** will return the selected info.
+The **set_gain()** does a dummy read if gain has changed so the next call to **read()** 
+will return info from the selected channel/gain.
 
 
 #### Mode 
 
-Get and set the operational mode for get_value() and indirect get_units().
-In **HX711_MEDIAN_MODE** and **HX711_MEDAVG_MODE** mode only 3..15 samples are allowed.
+Get and set the operational mode for **get_value()** and indirect **get_units()**.
 
-- **void set_raw_mode()** - will cause **read()** to be called only one time!
-- **void set_average_mode()** take the average of n measurements.
-- **void set_median_mode()** take the median of n measurements.
-- **void set_medavg_mode()** take the average of n/2 median measurements.
-- **void set_runavg_mode()** default alpha = 0.5.
-- **uint8_t get_mode()** returns current set mode.
-Default is **HX711_AVERAGE_MODE**
-
-Constants (see .h file for actual value)
+Constants (see .h file)
 
 - **HX711_RAW_MODE**  new in 0.3.3 
 - **HX711_AVERAGE_MODE**
@@ -120,10 +112,21 @@ Constants (see .h file for actual value)
 - **HX711_RUNAVG_MODE**
 
 
+In **HX711_MEDIAN_MODE** and **HX711_MEDAVG_MODE** mode only 3..15 samples are allowed
+to keep memory footprint relative low.
+
+- **void set_raw_mode()** - will cause **read()** to be called only once!
+- **void set_average_mode()** take the average of n measurements.
+- **void set_median_mode()** take the median of n measurements.
+- **void set_medavg_mode()** take the average of n/2 median measurements.
+- **void set_runavg_mode()** default alpha = 0.5.
+- **uint8_t get_mode()** returns current set mode. Default is **HX711_AVERAGE_MODE**.
+
+
 #### Get values
 
-Get values corrected for offset and scale.
-Note that in **HX711_RAW_MODE** times will be ignored => just read() once.
+Get values from the HX711 corrected for offset and scale.
+Note that in **HX711_RAW_MODE** times will be ignored => just call **read()** once.
 
 - **float get_value(uint8_t times = 1)** read value, corrected for offset.
 - **float get_units(uint8_t times = 1)** read value, converted to proper units.
@@ -159,7 +162,7 @@ Steps to take for calibration
 
 Some price functions were added to make it easy to use this library
 for pricing goods or for educational purposes. 
-These functions are under discussion if they will stay.
+These functions are under discussion if they will stay in the library.
 For weight conversion functions see https://github.com/RobTillaart/weight
 
 - **float get_price(uint8_t times = 1)** idem.
@@ -184,37 +187,27 @@ Use calibrate to find your favourite values.
 - A+/A-  uses gain of 128 or 64
 - B+/B-  uses gain of 32
 
-Colour scheme wires of two boards.
+Colour scheme wires of two devices.
 
-| HX711 Pin |  Colour        |
-|:---------:|:--------------:|
-|    E+     |  red           |
-|    E-     |  black         |
-|    A-     |  white         |
-|    A+     |  green         |
-|    B-     |  not connected |
-|    B+     |  not connected |
-
-
-| HX711 Pin |  Colour        |
-|:---------:|:--------------:|
-|    E+     |  red           |
-|    E-     |  black         |
-|    A-     |  blue          |
-|    A+     |  white         |
-|    B-     |  not connected |
-|    B+     |  not connected |
+| HX711 Pin |  Colour dev 1  |  Colour dev 2  |
+|:---------:|:--------------:|:--------------:|
+|    E+     |  red           |  red           |
+|    E-     |  black         |  black         |
+|    A-     |  white         |  blue          |
+|    A+     |  green         |  white         |
+|    B-     |  not connected |  not connected |
+|    B+     |  not connected |  not connected |
 
 
 ### Temperature
 
-Load cells do have a temperature related error. (check datasheet)
-This can be reduced by doing the calibration and take the tare 
-at the temperature one also uses for the measurements.
+Load cells do have a temperature related error. (see datasheet load cell)
+This can be reduced by doing the calibration and take the tare
+at the operational temperature one uses for the measurements.
 
 Another way to handle this is to add a good temperature sensor
 (e.g. DS18B20, SHT85) and compensate for the temperature
-differences in your code. 
+differences in your code.
 
 
 ## Operation
@@ -226,7 +219,7 @@ See examples
 
 
 #### must
-- decide if **set_gain()** will include **read()**
+
 
 #### should
 - update documentation
@@ -235,8 +228,8 @@ See examples
 - investigate read()
   - investigate the need of yield after interrupts
   - investigate blocking loop at begin of read()
-- why store the gain as \_gain while the iterations 1..3 is used most
-  - read() less code (but changes from explanatory to vague)
+- why store the gain as \_gain while the iterations m = 1..3 is used most
+  - read() less code (changes from explanatory code to vague)
   - very small performance gain.
   - code moves to both get/set_gain() so footprint might rise.
 
@@ -248,5 +241,6 @@ See examples
 
 
 #### the adding scale
-- void weight_clr(), void weight_add(), float weight_get() - adding scale 
+- void weight_clr(), void weight_add(), float weight_get() - adding scale
+  - might be a nice example
 
