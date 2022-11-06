@@ -114,8 +114,9 @@ float HX711::read()
 //  will map that to 0x40 == HX711_CHANNEL_A_GAIN_64;
 //  solution: use uint32_t or larger parameters everywhere.
 //  note that changing gain/channe takes up to 400 ms (page 3)
-bool HX711::set_gain(uint8_t gain)
+bool HX711::set_gain(uint8_t gain, bool forced)
 {
+  if ( (not forced) && (_gain == gain)) return true;
   switch(gain)
   {
     case HX711_CHANNEL_B_GAIN_32:

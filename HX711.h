@@ -114,7 +114,9 @@ public:
   //  returns true  ==>  parameter gain is valid
   //  returns false ==>  parameter gain is invalid ==> no change.
   //  note that changing gain/channel takes up to 400 ms (page 3)
-  bool     set_gain(uint8_t gain = HX711_CHANNEL_A_GAIN_128);
+  //  if forced == true, the gain will be forced set 
+  //  even it is already the right value
+  bool     set_gain(uint8_t gain = HX711_CHANNEL_A_GAIN_128, bool forced = false);
   uint8_t  get_gain();
 
 

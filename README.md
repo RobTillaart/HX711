@@ -90,8 +90,11 @@ Constants (see .h file)
 
 The selection of channels + gain is straightforward. 
 
-- **bool set_gain(uint8_t gain = 128)** values: 128 (default), 64 32.
+- **bool set_gain(uint8_t gain = 128, bool forced = false)** values: 128 (default), 64 32.
 If one uses an invalid value for the parameter gain, the channel and gain is not changed.
+If forced == false it will not set the new gain if the library thinks it
+already has the right value.
+If forced == true, it will explicitly set the gain again, including a dummy read().
 - **uint8_t get_gain()** returns set gain (128, 64 or 32).
 
 By setting the gain to one of the three constants the gain and the channel is selected.
