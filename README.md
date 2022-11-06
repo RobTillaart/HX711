@@ -100,6 +100,11 @@ will return info from the selected channel/gain.
 
 According to the datasheet the gain/channel change requires 400ms (table page 3).
 
+Warning: if you use **set_gain()** in your program the HX711 can be in different states.
+If there is a expected or unexpected reboot of the MCU, this could lead 
+to an unknown state at the reboot of the code. 
+So in such case it is strongly advised to call **set_gain()** explicitly in **setup()** so the device is in a known state.
+
 
 #### Mode 
 
