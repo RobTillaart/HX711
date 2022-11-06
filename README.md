@@ -63,6 +63,7 @@ Steps to take for calibration
 - **~HX711()**
 - **void begin(uint8_t dataPin, uint8_t clockPin)** sets a fixed gain 128 for now.
 - **void reset()** set internal state to start condition.
+Since 0.3.4 reset also does a power down / up cycle.
 - **bool is_ready()** checks if load cell is ready to read.
 - **void wait_ready(uint32_t ms = 0)** wait until ready, check every ms.
 - **bool wait_ready_retry(uint8_t retries = 3, uint32_t ms = 0)** wait max retries.
@@ -80,7 +81,9 @@ The weight alpha can be set to any value between 0 and 1, times >= 1.
 
 #### Gain + channel
 
-Read datasheet - see also Connections HX711 below.
+Use with care as it is not 100% reliable - see issue #27. (solutions welcome).
+
+Read datasheet before use.
 
 Constants (see .h file)
 
@@ -88,25 +91,31 @@ Constants (see .h file)
 - **HX711_CHANNEL_A_GAIN_64 = 64**
 - **HX711_CHANNEL_B_GAIN_32 = 32**  Note fixed gain for channel B.
 
-The selection of channels + gain is straightforward. 
+The selection of channels + gain is in theory straightforward. 
 
-- **bool set_gain(uint8_t gain = 128, bool forced = false)** values: 128 (default), 64 32.
-If one uses an invalid value for the parameter gain, the channel and gain is not changed.
-If forced == false it will not set the new gain if the library thinks it
+- **bool set_gain(uint8_t gain = 128, bool forced = false)** values: 128 (default), 64 or 32.
+If one uses an invalid value for the parameter gain, the channel and gain are not changed.
+If forced == false it will not set the new gain if the library "thinks" it
 already has the right value.
-If forced == true, it will explicitly set the gain again, including a dummy read().
+If forced == true, it will explicitly try to set the gain/channel again.
+This includes a dummy read() so the next "user" read() will give the right info.
 - **uint8_t get_gain()** returns set gain (128, 64 or 32).
 
 By setting the gain to one of the three constants the gain and the channel is selected.
-The **set_gain()** does a dummy read if gain has changed so the next call to **read()** 
-will return info from the selected channel/gain.
+The **set_gain()** does a dummy read if gain has changed (or forced == true) so the 
+next call to **read()** will return info from the selected channel/gain.
 
-According to the datasheet the gain/channel change requires 400ms (table page 3).
+According to the datasheet the gain/channel change may take up to 400ms (table page 3).
 
-Warning: if you use **set_gain()** in your program the HX711 can be in different states.
+Warning 1: if you use **set_gain()** in your program the HX711 can be in different states.
 If there is a expected or unexpected reboot of the MCU, this could lead 
 to an unknown state at the reboot of the code. 
-So in such case it is strongly advised to call **set_gain()** explicitly in **setup()** so the device is in a known state.
+So in such case it is strongly advised to call **set_gain()** explicitly in **setup()** 
+so the device is in a known state.
+
+Warning 2: In practice it seems harder to get the channel and gain selection as reliable
+as the datasheet states it should be. So use with care. (feedback welcome)
+See discussion #27. 
 
 
 #### Mode 
@@ -164,8 +173,10 @@ Steps to take for calibration
 
 #### Power management
 
-- **void power_down()** idem.
-- **void power_up()** idem.
+- **void power_down()** idem. Blocks for 64 microseconds. (Page 5 datasheet). 
+- **void power_up()** wakes up the HX711. 
+It should reset the HX711 to defaults but this is not always seen. 
+See discussion issue #27 GitHub. Needs more testing.
 
 
 #### Pricing
@@ -229,10 +240,12 @@ See examples
 
 
 #### must
+- update documentation
+- test B channel explicitly.
+- test reset and reboot behaviours.
 
 
 #### should
-- update documentation
 - add examples
 - optimize the build-in **ShiftIn()** function to improve performance again.
 - investigate read()

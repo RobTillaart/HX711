@@ -35,6 +35,8 @@ void HX711::begin(uint8_t dataPin, uint8_t clockPin)
 
 void HX711::reset()
 {
+  power_down();
+  power_up();
   _offset   = 0;
   _scale    = 1;
   _gain     = HX711_CHANNEL_A_GAIN_128;
@@ -94,6 +96,7 @@ float HX711::read()
 
   while (m > 0)
   {
+    //  delayMicroSeconds(1) needed for fast processors?
     digitalWrite(_clockPin, HIGH);
     digitalWrite(_clockPin, LOW);
     m--;
@@ -113,7 +116,7 @@ float HX711::read()
 //  note: if parameter gain == 0xFF40 some compilers
 //  will map that to 0x40 == HX711_CHANNEL_A_GAIN_64;
 //  solution: use uint32_t or larger parameters everywhere.
-//  note that changing gain/channe takes up to 400 ms (page 3)
+//  note that changing gain/channel may take up to 400 ms (page 3)
 bool HX711::set_gain(uint8_t gain, bool forced)
 {
   if ( (not forced) && (_gain == gain)) return true;
@@ -305,8 +308,9 @@ float HX711::get_units(uint8_t times)
 
 void HX711::power_down()
 {
-  digitalWrite(_clockPin, LOW);
+  // at least 60 us HIGH
   digitalWrite(_clockPin, HIGH);
+  delayMicroseconds(64);
 }
 
 
