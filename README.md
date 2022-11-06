@@ -88,7 +88,6 @@ Constants (see .h file)
 - **HX711_CHANNEL_A_GAIN_64 = 64**
 - **HX711_CHANNEL_B_GAIN_32 = 32**  Note fixed gain for channel B.
 
-
 The selection of channels + gain is straightforward. 
 
 - **bool set_gain(uint8_t gain = 128)** values: 128 (default), 64 32.
@@ -98,6 +97,8 @@ If one uses an invalid value for the parameter gain, the channel and gain is not
 By setting the gain to one of the three constants the gain and the channel is selected.
 The **set_gain()** does a dummy read if gain has changed so the next call to **read()** 
 will return info from the selected channel/gain.
+
+According to the datasheet the gain/channel change requires 400ms (table page 3).
 
 
 #### Mode 
