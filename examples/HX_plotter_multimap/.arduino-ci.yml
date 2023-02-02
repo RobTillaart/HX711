@@ -26,4 +26,4 @@ compile:
     # - mega2560
     - rpipico
   libraries:
-    "MultiMap"
+    - "MultiMap"
