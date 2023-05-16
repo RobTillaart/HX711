@@ -176,20 +176,55 @@ Note that in **HX711_RAW_MODE** times will be ignored => just call **read()** on
 - **long get_offset()** idem.
 
 
-#### Tare & calibration
+#### Tare & calibration I
 
 Steps to take for calibration
-1. clear the scale
-1. call tare() to set the zero offset
-1. put a known weight on the scale 
-1. call calibrate_scale(weight) 
+1. clear the scale.
+1. call **tare()** to determine and set the zero offset.
+1. put a known weight on the scale.
+1. call **calibrate_scale(weight)**.
 1. scale is calculated.
 1. save the offset and scale for later use e.g. EEPROM.
 
-- **void tare(uint8_t times = 10)** call tare to calibrate zero level
-- **float get_tare()** idem.
+- **void tare(uint8_t times = 10)** call tare to determine the offset
+to calibrate the zero (reference) level. See below.
+- **float get_tare()** returns the offset \* scale.
+Note this differs after calls to **calibrate_scale()**.
+Use **get_offset()** to get only the offset.
 - **bool tare_set()** checks if a tare has been set.
+Assumes offset is not zero, which is true for all load cells tested.
 - **void calibrate_scale(uint16_t weight, uint8_t times = 10)** idem.
+
+
+#### Tare & calibration II
+
+A load cell + HX711 module without weight gives a raw value, mostly not equal to zero.
+The function **get_tare()** is used to measure this raw value and allows the user
+to define this value as a zero weight (force) point.
+This zero point is normally without any load, however it is possible to define 
+a zero point with a "fixed" load e.g. a cup, a dish, even a spring or whatever.
+This allows the system to automatically subtract the weight of the cup etc.
+
+Warning: The user must be aware that the "fixed" load together with the 
+"variable" load does not exceed the specifications of the load cell.
+
+E.g. a load cell which can handle 1000 grams with a cup of 300 grams should not 
+be calibrated with a weight of more than 700 grams.
+In fact it is better to calibrate with a weight in the order of 80 to 90% of 
+the maximum load so in this example a weight of 500 to 600 grams.
+
+Furthermore it is also important to do the calibration at the temperature you 
+expect to do the weight measurements. See temperature section below.
+
+
+#### Inner formula
+
+Weight = **get_scale()** x raw + **get_tare()**.
+
+With the two parameters one can interpolate the inner formula.
+This can be used e.g to make an ideal graph of the conversion.
+This can be compared with actual values to get an indication
+of the accuracy of the load cell.
 
 
 #### Power management
@@ -266,15 +301,9 @@ differences in your code.
 
 #### Should
 
-- add examples
-- optimize the build-in **ShiftIn()** function to improve performance again.
 - investigate read()
   - investigate the need of yield after interrupts
-  - investigate blocking loop at begin of read()
-- why store the gain as \_gain while the iterations m = 1..3 is used most
-  - read() less code (changes from explanatory code to vague)
-  - very small performance gain.
-  - code moves to both get/set_gain() so footprint might rise.
+  - investigate blocking loop at begin => less yield() calls ?
 
 
 #### Could
@@ -282,10 +311,15 @@ differences in your code.
 - test different load cells
 - make enum of the MODE's
 - move code to .cpp
-- example the adding scale
+- add examples
+  - example the adding scale
   - void weight_clr(), void weight_add(), float weight_get() - adding scale
 
 
 #### Wont
 
-
+- why store the gain as \_gain while the iterations m = 1..3 is used most
+  - read() less code
+  - **changes from explanatory code to vague**
+  - very small performance gain.
+  - code moves to both get/set_gain() so footprint might rise.
