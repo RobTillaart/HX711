@@ -3,7 +3,9 @@
 //  AUTHOR: Rob Tillaart
 // PURPOSE: HX711 noise meansurement
 //     URL: https://github.com/RobTillaart/HX711
-
+//
+//  This example uses - https://github.com/RobTillaart/Statistic
+//
 //  The purpse of this sketch is to measure the noise of your system.
 //  This is done by making 1000 measurements.
 //  From these some basic statistics are caculated so one can see 
