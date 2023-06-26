@@ -14,6 +14,20 @@
 //  First one need to calibrate the loadcell and fill in the data
 //  use - HX_calibration.ino to get the numbers.
 //  Then run this program.
+//
+//  example output 
+//    5 KG loadcell
+//
+//  COUNT   MIN   MAX   AVG   VAR   PDEV  UDEV
+//  ...
+//  1000  -0.7148 1.1891  -0.0158 0.2187  0.4676  0.4678
+//
+//  the scale.tare is averaged over 100 measurements (first loop)
+//  so on a scale from 0..5000 gram
+//  the average zero point drift = -0.0158 gram
+//  the stddev is below 0.5 gram
+//  MAX - MIN => ~1.9 gram
+//  so accurate in order of 1 gram (about two stddev)
 
 
 #include "HX711.h"
@@ -43,11 +57,11 @@ void setup()
   scale.set_raw_mode();
   Serial.println();
   Serial.println("\tCOUNT \tMIN \tMAX \tAVG \tVAR \tPDEV \tUDEV");
-  for (uint32_t i = 1; i <= 1000; i++)
+  for (uint32_t i = 1; i <= 100; i++)
   {
     float value = scale.read();
     myStats.add(value);
-    if (i % 100 == 0)
+    if (i % 10 == 0)
     {
       Serial.print("\t");
       Serial.print(myStats.count());
@@ -68,14 +82,25 @@ void setup()
   }
 
 
-  // TODO find a nice solution for this calibration..
-  // load cell factor 20 KG
-  scale.set_scale(127.15);       // TODO you need to calibrate this yourself.
+  //  TODO find an in-sketch solution for this calibration.
+  //  use HX_calibration.ino for now
+  //  load cell factor 20 KG
+  //  scale.set_scale(127.15);  // TODO you need to calibrate this yourself.
+  
+  //  load cell factor 5 KG
+  scale.set_scale(449.076354);
 
-  // load cell factor 5 KG
-  // scale.set_scale(420.0983);
-  // reset the scale to zero = 0
-  scale.tare();
+  //  reset the scale to zero = 0  normally call scale.tare(30);
+  //  use the average from previous loop as tare offset
+  scale.set_offset(myStats.average());
+
+  //  for which weight measure the noise?
+  while (Serial.available()) Serial.read();
+  Serial.println("\nApply weight and press enter\n");
+  while (!Serial.available());
+  Serial.read();
+  
+
 
   //  statistics on average data
   myStats.clear();
