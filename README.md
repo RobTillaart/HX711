@@ -20,6 +20,11 @@ Another important difference is that this library uses floats.
 The 23 bits mantissa of the IEEE754 float matches the 24 bit ADC very well. 
 Furthermore using floats gave a smaller footprint on the Arduino UNO.
 
+Note that the 24 bits of the HX711 contains some noise so depending on setup, 
+load etc. only 16 to 20 of the bits are expected significant in practice. 
+This translates roughly to 4 or max 5 significant digits in a single measurement
+That's why multiple measurements are advised to average and reduce the noise.
+
 
 #### Breaking change 0.3.0
 
@@ -53,13 +58,17 @@ This multi-point calibration allows to compensate for non-linear behaviour
 in the sensor readings.
 
 
+#### Links
+
+-  https://github.com/RobTillaart/weight  (conversions kg <> stone etc.)
+
 
 ## Main flow
 
 First action is to call **begin(dataPin, clockPin)** to make connection to the **HX711**.
 
 Second step is calibration for which a number of functions exist.
-- **tare()** measures zero point
+- **tare()** measures zero point.
 - **set_scale(factor)** set a known conversion factor e.g. from EEPROM.
 - **calibrate_scale(WEIGHT, TIMES)** determines the scale factor based upon a known weight e.g. 1 Kg.
 
