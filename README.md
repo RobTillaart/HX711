@@ -179,7 +179,8 @@ Note that in **HX711_RAW_MODE** times will be ignored => just call **read()** on
 
 - **float get_value(uint8_t times = 1)** read value, corrected for offset.
 - **float get_units(uint8_t times = 1)** read value, converted to proper units.
-- **void set_scale(float scale = 1.0)** set scale factor; scale > 0.
+- **bool set_scale(float scale = 1.0)** set scale factor which is normally a positive number larger than 50. Depends on load-cell used.
+Returns false if scale == 0.
 - **float get_scale()** returns set scale factor.
 - **void set_offset(long offset = 0)** idem.
 - **long get_offset()** idem.
@@ -319,10 +320,10 @@ differences in your code.
 
 - test different load cells
 - make enum of the MODE's
-- move code to .cpp
 - add examples
   - example the adding scale
   - void weight_clr(), void weight_add(), float weight_get() - adding scale
+- decide pricing keep/not => move to .cpp
 
 
 #### Wont

@@ -5,8 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.3.7] - 2023-xx-xx
+## [0.3.7] - 2023-06-27
 - add example to measure noise level
+- moved code to .cpp
+- reorder .cpp to match .h
+- removed **callibrate_scale()** (typo ll)
+- add scale == 0 in **set_scale(scale)**
+- changed return type to  **bool set_scale(scale)**
+- add example is_ready
+- add example pulse-length decoder (morse)
 - update readme.md
 
 
