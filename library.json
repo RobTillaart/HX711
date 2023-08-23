@@ -17,7 +17,7 @@
   },
   "version": "0.3.7",
   "license": "MIT",
-  "frameworks": "arduino",
+  "frameworks": "*",
   "platforms": "*",
   "headers": "HX711.h"
 }

@@ -58,9 +58,23 @@ This multi-point calibration allows to compensate for non-linear behaviour
 in the sensor readings.
 
 
-#### Links
+#### 10 or 80 SPS
 
--  https://github.com/RobTillaart/weight  (conversions kg <> stone etc.)
+The datasheet mentions that the HX711 can run at 80 samples per second SPS. 
+To select this mode connect the **RATE** pin(15) of the chip to VCC (HIGH).
+Connecting **RATE** to GND (LOW) gives 10 SPS.
+
+All breakout boards I tested have **RATE** connected to GND and offer no
+pin to control this from the outside.
+
+This library does not provide means to control the **RATE** (yet).
+One can add a pin for that and use **digitalWrite()**.
+
+
+#### Related
+
+- https://github.com/RobTillaart/weight  (conversions kg <> stone etc.)
+- https://github.com/RobTillaart/HX711_MP
 
 
 ## Main flow
@@ -298,6 +312,47 @@ Another way to handle this is to add a good temperature sensor
 differences in your code.
 
 
+## Multiple HX711
+
+
+#### Separate lines
+
+Best way to control multiple HX711's is to have a separate **DOUT** and **CLK** 
+line for every HX711 connected.
+
+
+#### Multiplexer
+
+Alternative one could use a multiplexer like the https://github.com/RobTillaart/HC4052
+or possibly an https://github.com/RobTillaart/TCA9548.
+Although to control the multiplexer one need some extra lines.
+
+
+#### Share CLOCK line
+
+See **HX_loadcell_array.ino**
+
+Another way to control multiple HX711's is to share the **CLK** line. 
+This has a few side effects which might be acceptable or not.
+
+Known side effects - page 4 and 5 datasheet.
+
+- The **CLK** is used to select channel and to select gain for the NEXT sample.
+- The **CLK** is used for power down.
+- After wake up after power down all HX711's will reset to channel A and gain 128.
+**WARNING:** if one of the objects does a **powerDown()** or **reset()** it resets its internal states.
+The other objects however won't reset their internal state, so a mismatch can occur.
+
+So in short, sharing the **CLK** line causes all HX711 modules share the same state.
+This can introduce extra complexity if one uses mixed gains or channels.
+If all HX711's use the same settings it should work, however extra care is needed for
+**powerDown()** and **reset()**.
+
+**WARNING: Sharing the data lines is NOT possible as it could cause short circuit.**
+
+See https://github.com/RobTillaart/HX711/issues/40
+
+
 ## Future
 
 
@@ -324,6 +379,8 @@ differences in your code.
   - example the adding scale
   - void weight_clr(), void weight_add(), float weight_get() - adding scale
 - decide pricing keep/not => move to .cpp
+- add **setRate()** and **getRate()**
+  - optional?
 
 
 #### Wont

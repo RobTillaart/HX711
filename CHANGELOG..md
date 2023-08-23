@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.3.8] - 2023-08-??
+- add example **HX_loadcell_array.ino**
+  - test support array of loadcells.
+- update readme.md
+
+
 ## [0.3.7] - 2023-06-27
 - add example to measure noise level
 - moved code to .cpp
