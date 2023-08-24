@@ -400,10 +400,8 @@ See https://github.com/RobTillaart/HX711/issues/40
 ## Support
 
 If you appreciate my libraries, you can support the development and maintenance.
-
-1. Improve the quality of the libraries by providing issues or Pull Requests.
-1. Donate hardware for prototyping and testing.
-1. Donate through PayPal or GitHub sponsors.
+Improve the quality of the libraries by providing issues and Pull Requests, or
+donate through PayPal or GitHub sponsors.
 
 Thank you,
 
