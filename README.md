@@ -1,9 +1,14 @@
 
+
 [![Arduino CI](https://github.com/RobTillaart/HX711/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/HX711/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/HX711/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/HX711/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/HX711/actions/workflows/jsoncheck.yml)
+[![GitHub issues](https://img.shields.io/github/issues/RobTillaart/HX711.svg)](https://github.com/RobTillaart/HX711/issues)
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/HX711/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/HX711.svg?maxAge=3600)](https://github.com/RobTillaart/HX711/releases)
+[![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/HX711.svg)](https://registry.platformio.org/libraries/robtillaart/HX711)
+[![Sponsor](https://img.shields.io/badge/Support_this_project-PayPal-green.svg)](https://paypal.me/robtillaart/EUR)
 
 
 # HX711
@@ -67,8 +72,9 @@ Connecting **RATE** to GND (LOW) gives 10 SPS.
 All breakout boards I tested have **RATE** connected to GND and offer no
 pin to control this from the outside.
 
-This library does not provide means to control the **RATE** (yet).
-One can add a pin for that and use **digitalWrite()**.
+This library does not provide means to control the **RATE** yet.
+If there is a need (issue) I will implement this in the library.
+For now one can add an IOpin for this and use **digitalWrite()**.
 
 
 #### Related
@@ -317,7 +323,7 @@ differences in your code.
 
 #### Separate lines
 
-Best way to control multiple HX711's is to have a separate **DOUT** and **CLK** 
+Simplest way to control multiple HX711's is to have a separate **DOUT** and **CLK** 
 line for every HX711 connected.
 
 
@@ -325,7 +331,7 @@ line for every HX711 connected.
 
 Alternative one could use a multiplexer like the https://github.com/RobTillaart/HC4052
 or possibly an https://github.com/RobTillaart/TCA9548.
-Although to control the multiplexer one need some extra lines.
+Although to control the multiplexer one need some extra lines and code.
 
 
 #### Share CLOCK line
