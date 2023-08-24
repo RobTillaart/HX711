@@ -399,12 +399,10 @@ See https://github.com/RobTillaart/HX711/issues/40
 
 ## Support
 
-At the moment I have developed more than 200 Arduino libraries, free to use under MIT license.
-
-If you appreciate these libraries you can support the development and maintenance:
+If you appreciate my libraries, you can support the development and maintenance:
 
 1. Improve the quality of the libraries by providing Pull Requests or issues.
-1. Donate hardware for testing
+1. Donate hardware for testing.
 1. Donate through PayPal or GitHub sponsors.
 
 Thank you,
