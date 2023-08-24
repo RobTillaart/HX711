@@ -8,7 +8,6 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/RobTillaart/HX711/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/RobTillaart/HX711.svg?maxAge=3600)](https://github.com/RobTillaart/HX711/releases)
 [![PlatformIO Registry](https://badges.registry.platformio.org/packages/robtillaart/library/HX711.svg)](https://registry.platformio.org/libraries/robtillaart/HX711)
-[![Sponsor](https://img.shields.io/badge/Support_this_project-PayPal-green.svg)](https://paypal.me/robtillaart/EUR)
 
 
 # HX711
@@ -396,3 +395,17 @@ See https://github.com/RobTillaart/HX711/issues/40
   - **changes from explanatory code to vague**
   - very small performance gain.
   - code moves to both get/set_gain() so footprint might rise.
+
+
+## Support
+
+At the moment I have developed more than 200 Arduino libraries, free to use under MIT license.
+
+If you appreciate these libraries you can support the development and maintenance:
+
+1. Improve the quality of the libraries by providing Pull Requests or issues.
+1. Donate hardware for testing
+1. Donate through PayPal or GitHub sponsors.
+
+Thank you,
+
