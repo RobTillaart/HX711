@@ -364,13 +364,13 @@ See https://github.com/RobTillaart/HX711/issues/40
 #### Must
 
 - update documentation HX711
-- test B channel explicitly.
-- test reset and reboot behaviours.
 - keep in sync with HX711_MP
 
 
 #### Should
 
+- test B channel explicitly.
+- test reset and reboot behaviours.
 - investigate read()
   - investigate the need of yield after interrupts
   - investigate blocking loop at begin => less yield() calls ?
@@ -383,7 +383,7 @@ See https://github.com/RobTillaart/HX711/issues/40
 - add examples
   - example the adding scale
   - void weight_clr(), void weight_add(), float weight_get() - adding scale
-- decide pricing keep/not => move to .cpp
+- decide pricing keep/not => move to .cpp        
 - add **setRate()** and **getRate()**
   - optional?
 
