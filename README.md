@@ -1,5 +1,4 @@
 
-
 [![Arduino CI](https://github.com/RobTillaart/HX711/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/RobTillaart/HX711/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/RobTillaart/HX711/actions/workflows/arduino-lint.yml)
 [![JSON check](https://github.com/RobTillaart/HX711/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/RobTillaart/HX711/actions/workflows/jsoncheck.yml)
@@ -78,7 +77,9 @@ For now one can add an IOpin for this and use **digitalWrite()**.
 
 #### Related
 
+- https://github.com/bogde/HX711
 - https://github.com/RobTillaart/weight  (conversions kg <> stone etc.)
+- https://github.com/RobTillaart/HX711
 - https://github.com/RobTillaart/HX711_MP
 
 
@@ -383,7 +384,7 @@ See https://github.com/RobTillaart/HX711/issues/40
 - add examples
   - example the adding scale
   - void weight_clr(), void weight_add(), float weight_get() - adding scale
-- decide pricing keep/not => move to .cpp        
+- decide pricing keep/not => move to .cpp
 - add **setRate()** and **getRate()**
   - optional?
 
