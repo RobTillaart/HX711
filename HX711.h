@@ -41,7 +41,7 @@ public:
   ~HX711();
 
   //  fixed gain 128 for now
-  void     begin(uint8_t dataPin, uint8_t clockPin);
+  void     begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor = false);
 
   void     reset();
 
@@ -164,6 +164,7 @@ private:
 
   void     _insertSort(float * array, uint8_t size);
   uint8_t  _shiftIn();
+	bool _fast_processor = false;
 };
 
 

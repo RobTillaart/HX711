@@ -111,7 +111,8 @@ Steps to take for calibration
 
 - **HX711()** constructor.
 - **~HX711()**
-- **void begin(uint8_t dataPin, uint8_t clockPin)** sets a fixed gain 128 for now.
+- **void begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor)** sets a fixed gain 128 for now.
+The fastProcessor option adds a 1uS delay for each clock half-cycle to keep the time greater than 200nS
 - **void reset()** set internal state to start condition.
 Since 0.3.4 reset also does a power down / up cycle.
 - **bool is_ready()** checks if load cell is ready to read.
