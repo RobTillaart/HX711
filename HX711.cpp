@@ -1,7 +1,7 @@
 //
 //    FILE: HX711.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.9
+// VERSION: 0.4.0
 // PURPOSE: Library for load cells for UNO
 //     URL: https://github.com/RobTillaart/HX711
 
@@ -24,7 +24,7 @@ void HX711::begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor )
 {
   _dataPin  = dataPin;
   _clockPin = clockPin;
-	_fast_processor = fastProcessor; 
+  _fastProcessor = fastProcessor;
 
   pinMode(_dataPin, INPUT);
   pinMode(_clockPin, OUTPUT);
@@ -135,11 +135,11 @@ float HX711::read()
   {
     //  delayMicroSeconds(1) needed for fast processors?
     digitalWrite(_clockPin, HIGH);
-	if(_fast_processor)
-		delayMicroseconds(1);
+    if (_fastProcessor)
+        delayMicroseconds(1);
     digitalWrite(_clockPin, LOW);
-	if(_fast_processor)
-		delayMicroseconds(1);
+    if (_fastProcessor)
+        delayMicroseconds(1);
     m--;
   }
 
@@ -450,15 +450,15 @@ uint8_t HX711::_shiftIn()
   while (mask > 0)
   {
     digitalWrite(clk, HIGH);
-		if(_fast_processor)
-			delayMicroseconds(1);
+    if(_fastProcessor)       //  T2  >= 0.2 us
+      delayMicroseconds(1);
     if (digitalRead(data) == HIGH)
     {
       value |= mask;
     }
     digitalWrite(clk, LOW);
-		if(_fast_processor)
-			delayMicroseconds(1);
+    if(_fastProcessor)
+      delayMicroseconds(1);   //  keep duty cycle ~50%
     mask >>= 1;
   }
   return value;

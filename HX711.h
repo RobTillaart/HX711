@@ -2,7 +2,7 @@
 //
 //    FILE: HX711.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.9
+// VERSION: 0.4.0
 // PURPOSE: Library for load cells for Arduino
 //     URL: https://github.com/RobTillaart/HX711
 //
@@ -13,7 +13,7 @@
 
 #include "Arduino.h"
 
-#define HX711_LIB_VERSION               (F("0.3.9"))
+#define HX711_LIB_VERSION               (F("0.4.0"))
 
 
 const uint8_t HX711_AVERAGE_MODE = 0x00;
@@ -164,7 +164,7 @@ private:
 
   void     _insertSort(float * array, uint8_t size);
   uint8_t  _shiftIn();
-	bool _fast_processor = false;
+  bool     _fastProcessor = false;
 };
 
 
