@@ -1,8 +1,9 @@
 //
 //    FILE: HX711.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.3.9
+// VERSION: 0.4.0
 // PURPOSE: Library for load cells for UNO
+//     URL: https://github.com/RobTillaart/HX711_MP
 //     URL: https://github.com/RobTillaart/HX711
 
 
@@ -24,7 +25,7 @@ void HX711::begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor )
 {
   _dataPin  = dataPin;
   _clockPin = clockPin;
-	_fast_processor = fastProcessor; 
+  _fastProcessor = fastProcessor;
 
   pinMode(_dataPin, INPUT);
   pinMode(_clockPin, OUTPUT);
@@ -84,7 +85,7 @@ bool HX711::wait_ready_timeout(uint32_t timeout, uint32_t ms)
 }
 
 
-///////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
 //
 //  READ
 //
@@ -135,11 +136,11 @@ float HX711::read()
   {
     //  delayMicroSeconds(1) needed for fast processors?
     digitalWrite(_clockPin, HIGH);
-	if(_fast_processor)
-		delayMicroseconds(1);
+    if (_fastProcessor)
+        delayMicroseconds(1);
     digitalWrite(_clockPin, LOW);
-	if(_fast_processor)
-		delayMicroseconds(1);
+    if (_fastProcessor)
+        delayMicroseconds(1);
     m--;
   }
 
@@ -319,7 +320,7 @@ bool HX711::tare_set()
 }
 
 
-///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
 //
 //  GAIN
 //
@@ -349,9 +350,9 @@ uint8_t HX711::get_gain()
 }
 
 
-///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
 //
-//  CALIBRATION AND SETUP
+//  CALIBRATION
 //
 bool HX711::set_scale(float scale)
 {
@@ -386,9 +387,9 @@ void HX711::calibrate_scale(uint16_t weight, uint8_t times)
 }
 
 
-///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
 //
-//  POWER
+//  POWER MANAGEMENT
 //
 void HX711::power_down()
 {
@@ -404,7 +405,7 @@ void HX711::power_up()
 }
 
 
-///////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
 //
 //  MISC
 //
@@ -414,7 +415,7 @@ uint32_t HX711::last_read()
 }
 
 
-/////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
 //
 //  PRIVATE
 //
@@ -450,15 +451,15 @@ uint8_t HX711::_shiftIn()
   while (mask > 0)
   {
     digitalWrite(clk, HIGH);
-		if(_fast_processor)
-			delayMicroseconds(1);
+    if(_fastProcessor)       //  T2  >= 0.2 us
+      delayMicroseconds(1);
     if (digitalRead(data) == HIGH)
     {
       value |= mask;
     }
     digitalWrite(clk, LOW);
-		if(_fast_processor)
-			delayMicroseconds(1);
+    if(_fastProcessor)
+      delayMicroseconds(1);   //  keep duty cycle ~50%
     mask >>= 1;
   }
   return value;
