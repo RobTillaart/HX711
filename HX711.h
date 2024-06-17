@@ -9,7 +9,8 @@
 //
 //  NOTES
 //  Superset of interface of HX711 class of Bogde
-//  float instead of long as float has 23 bits mantissa.
+//  uses float instead of long as float has 23 bits mantissa
+//  which almost perfectly matches the 24 bit ADC.
 
 
 #include "Arduino.h"
