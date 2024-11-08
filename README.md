@@ -29,7 +29,7 @@ This translates roughly to 4 or max 5 significant digits in a single measurement
 That's why multiple measurements are advised to average and reduce the noise.
 
 
-#### Breaking change 0.3.0
+### Breaking change 0.3.0
 
 In issue #11 it became clear that the timing of the default **shiftIn()** function to 
 read the value of the internal ADC was too fast on some processor boards for the HX711.
@@ -44,7 +44,7 @@ Drawback is that reading the HX711 takes an extra 50-55 microseconds.
 How much this affects performance is to be investigated.
 
 
-#### HX711_MP
+### HX711_MP
 
 - https://github.com/RobTillaart/HX711_MP
 
@@ -61,7 +61,7 @@ This multi-point calibration allows to compensate for non-linear behaviour
 in the sensor readings.
 
 
-#### 10 or 80 SPS
+### 10 or 80 SPS
 
 The datasheet mentions that the HX711 can run at 80 samples per second SPS. 
 To select this mode connect the **RATE** pin(15) of the chip to VCC (HIGH).
@@ -75,7 +75,7 @@ If there is a need (issue) I will implement this in the library.
 For now one can add an IOpin for this and use **digitalWrite()**.
 
 
-#### Related
+### Related
 
 - https://github.com/bogde/HX711
 - https://github.com/RobTillaart/weight  (conversions kg <> stone etc.)
@@ -83,7 +83,7 @@ For now one can add an IOpin for this and use **digitalWrite()**.
 - https://github.com/RobTillaart/HX711_MP  multipoint calibration version.
 
 
-#### Faulty boards
+### Faulty boards
 
 - https://forum.arduino.cc/t/load-cell-amplifier-hx711-wrong-ground/1046075
 
