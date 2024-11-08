@@ -184,7 +184,7 @@ Get and set the operational mode for **get_value()** and indirect **get_units()*
 
 Constants (see .h file)
 
-- **HX711_RAW_MODE** new in 0.3.3 
+- **HX711_RAW_MODE**
 - **HX711_AVERAGE_MODE**
 - **HX711_MEDIAN_MODE**
 - **HX711_MEDAVG_MODE**
