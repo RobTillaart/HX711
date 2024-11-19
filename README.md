@@ -92,6 +92,9 @@ For now one can add an IOpin for this and use **digitalWrite()**.
 - https://github.com/RobTillaart/HX711
 - https://github.com/RobTillaart/HX711_MP  multipoint calibration version.
 
+Discussion about resolution of the ADC
+- https://forum.arduino.cc/t/scale-from-50-kg-to-5000kg-what-adc/1139710
+
 
 ### Faulty boards
 
@@ -410,6 +413,7 @@ See https://github.com/RobTillaart/HX711/issues/40
 
 #### Should
 
+- replace last_read() with last_time_read()
 - test B channel explicitly.
 - test reset and reboot behaviours.
 - investigate read()
@@ -418,6 +422,9 @@ See https://github.com/RobTillaart/HX711/issues/40
 
 #### Could
 
+- optimize fastProcessor code (possible better performance)
+  - injecting 2 microdelays is not always needed.
+  - int flag instead of bool.
 - test different load cells
 - make enum of the MODE's
 - add examples

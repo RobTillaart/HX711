@@ -163,7 +163,8 @@ public:
 
 
   //  TIME OF LAST READ
-  uint32_t last_read();
+  uint32_t last_time_read();
+  uint32_t last_read();  //  obsolete in the future
 
 
   //  PRICING
@@ -179,7 +180,7 @@ private:
   uint8_t  _gain;
   int32_t  _offset;
   float    _scale;
-  uint32_t _lastRead;
+  uint32_t _lastTimeRead;
   float    _price;
   uint8_t  _mode;
   bool     _fastProcessor;
