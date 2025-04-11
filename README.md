@@ -276,7 +276,7 @@ The calibration weight averages times measurements to improve accuracy.
 Weight is typical in grams, however any unit can be used.
 Be aware this unit will also be returned by **get_units()**.
 
-Since 0.5.3 the weight is defined as float which allows easier calibration in
+Since 0.6.0 the weight is defined as float which allows easier calibration in
 other units e.g. define the weight as 2.5 kg instead of 2500 gram.
 The function **GetUnits()** will then return its value in kg too.
 

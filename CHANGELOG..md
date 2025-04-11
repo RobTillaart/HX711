@@ -5,10 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## [0.5.3] - 2025-04-10
+## [0.6.0] - 2025-04-10
 - fix #60, change parameter **void calibrate_scale(float weight, uint8_t times = 10)**
 - update readme.md
 
+----
 
 ## [0.5.2] - 2024-11-18
 - fix #56, update readme.md
