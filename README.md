@@ -93,7 +93,7 @@ This is a close "relative" of the HX711 that allows to set the SPS to
 
 - https://github.com/bogde/HX711
 - https://github.com/RobTillaart/weight  (conversions kg <> stone etc.)
-- https://github.com/RobTillaart/HX710
+- https://github.com/RobTillaart/HX710AB
 - https://github.com/RobTillaart/HX711
 - https://github.com/RobTillaart/HX711_MP  multipoint calibration version.
 
