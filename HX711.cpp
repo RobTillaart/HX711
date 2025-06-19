@@ -1,7 +1,7 @@
 //
 //    FILE: HX711.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.0
+// VERSION: 0.6.1
 // PURPOSE: Library for load cells for UNO
 //     URL: https://github.com/RobTillaart/HX711_MP
 //     URL: https://github.com/RobTillaart/HX711
@@ -33,7 +33,7 @@ void HX711::begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor )
   _clockPin = clockPin;
   _fastProcessor = fastProcessor;
 
-  pinMode(_dataPin, INPUT);
+  pinMode(_dataPin, INPUT_PULLUP);
   pinMode(_clockPin, OUTPUT);
   digitalWrite(_clockPin, LOW);
 
