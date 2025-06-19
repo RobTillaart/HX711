@@ -295,14 +295,14 @@ float HX711::get_value(uint8_t times)
       break;
   }
   return raw - _offset;
-};
+}
 
 
 float HX711::get_units(uint8_t times)
 {
   float units = get_value(times) * _scale;
   return units;
-};
+}
 
 
 ///////////////////////////////////////////////////////////////
