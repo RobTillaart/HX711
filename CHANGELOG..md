@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
+## [0.6.3] - 2025-09-16
+- fix #20, HX711 rate pin code
+- FIx #70 .... reset ...
+
+
 ## [0.6.2] - 2025-09-06
 - Fix #68, add bogde to the license, to give credit for the API
 - implement experimental rate support.
