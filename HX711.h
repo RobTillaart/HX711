@@ -196,15 +196,15 @@ private:
   uint8_t  _dataPin;
   uint8_t  _clockPin;
 
-  uint8_t  _gain;
   int32_t  _offset;
   float    _scale;
+  uint8_t  _gain;
   uint32_t _lastTimeRead;
-  float    _price;
   uint8_t  _mode;
   bool     _fastProcessor;
   uint8_t  _ratePin = 255;
   uint8_t  _rate = 10;
+  float    _price;
 
   void     _insertSort(float * array, uint8_t size);
   uint8_t  _shiftIn();

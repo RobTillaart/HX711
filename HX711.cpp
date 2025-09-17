@@ -12,13 +12,13 @@
 
 HX711::HX711()
 {
-  _gain     = HX711_CHANNEL_A_GAIN_128;
   _offset   = 0;
   _scale    = 1;
+  _gain     = HX711_CHANNEL_A_GAIN_128;
   _lastTimeRead = 0;
-  _price    = 0;
   _mode     = HX711_AVERAGE_MODE;
   _fastProcessor = false;
+  _price    = 0;
 }
 
 
@@ -48,12 +48,12 @@ void HX711::reset()
 {
   power_down();
   power_up();
-  _gain     = HX711_CHANNEL_A_GAIN_128;
   _offset   = 0;
   _scale    = 1;
+  _gain     = HX711_CHANNEL_A_GAIN_128;
   _lastTimeRead = 0;
-  _price    = 0;
   _mode     = HX711_AVERAGE_MODE;
+  _price    = 0;
 }
 
 

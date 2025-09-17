@@ -174,7 +174,7 @@ Note that the units used in **calibrate_scale()** will be returned by **get_unit
   Note that not calling reset() leaves the ADC in the previous or even an undefined state, 
   so use with care. (needs testing)
 - **void reset()** set internal state to the start condition.
-Since 0.3.4 reset() does a power_down() / power_up() cycle. 
+Reset() also does a power_down() / power_up() cycle. 
 This cycle adds a delay of 400 (RATE = 10 SPS) or 50 (RATE = 80 SPS) milliseconds.
 
 
@@ -240,7 +240,7 @@ so the device is in a known state.
 
 Warning 2: In practice it seems harder to get the channel and gain selection as reliable
 as the datasheet states it should be. So use with care. (feedback welcome)
-See discussion #27. 
+See discussion #27 HX711. 
 
 
 ### Read mode
@@ -509,29 +509,33 @@ See https://github.com/RobTillaart/HX711/issues/40
 
 #### Must
 
-- update documentation HX711
-- keep in sync with HX711_MP, HX710AB
+- update documentation
+- keep in sync with HX711_MP, HX710AB library.
 
 #### Should
 
-- test B channel explicitly.
-- test reset and reboot behaviours.
+- test
+  - different load cells.
+  - B channel explicitly.
+  - test reset and reboot behaviours.
+  - test and verify the proper working of the rate functions.
 - investigate read()
   - investigate the need of yield after interrupts
   - investigate blocking loop at begin => less yield() calls ?
-- test and verify the proper working of the rate functions.
+- add performance figures
 
 #### Could
 
+- add error handling?
 - optimize fastProcessor code (possible better performance)
   - injecting 2 micro delays is not always needed.
   - int flag instead of bool.
-- test different load cells
 - make enum of the MODE's
 - add examples
   - example the adding scale
   - void weight_clr(), void weight_add(), float weight_get() - adding scale
   - example for using rate functions.
+- investigate temperature compensation.
 - decide pricing keep/not => move to .cpp
 
 #### Wont
