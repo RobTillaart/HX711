@@ -43,11 +43,14 @@ public:
   ~HX711();
 
   //  fixed gain 128 for now
-  void     begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor = false);
+  void     begin(uint8_t dataPin, uint8_t clockPin,
+                 bool fastProcessor = false,
+                 bool doReset = true);
 
   void     reset();
 
   //  checks if load cell is ready to read.
+  //  use this to prevent blocking reads, esp at startup, 1st read.
   bool     is_ready();
 
   //  wait until ready,
@@ -63,7 +66,8 @@ public:
   //
   //  READ
   //
-  //  raw read
+  //  raw read, is blocking until device is ready to read().
+  //  this blocking period can be long up to 400 ms in first read() call.
   float    read();
 
   //  get average of multiple raw reads

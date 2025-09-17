@@ -6,12 +6,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
 ## [0.6.3] - 2025-09-16
-- fix #20, HX711 rate pin code
-- FIx #70 .... reset ...
-
+- fix #70, HX711 rate pin code
+- fix #70, add a doReset parameter to begin() to improve start up time.
+- update readme.md 
+  - add details about start up time (related to RATE).
+  - add **isReady()** check in calibration
+  - add reference to ADAfruit breakout with RATE
+- minor edits
 
 ## [0.6.2] - 2025-09-06
-- Fix #68, add bogde to the license, to give credit for the API
+- fix #68, add bogde to the license, to give credit for the API
 - implement experimental rate support.
 - update keywords.txt
 - update readme.md

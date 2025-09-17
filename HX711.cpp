@@ -27,7 +27,7 @@ HX711::~HX711()
 }
 
 
-void HX711::begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor )
+void HX711::begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor, bool doReset)
 {
   _dataPin  = dataPin;
   _clockPin = clockPin;
@@ -37,7 +37,10 @@ void HX711::begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor )
   pinMode(_clockPin, OUTPUT);
   digitalWrite(_clockPin, LOW);
 
-  reset();
+  if (doReset)
+  {
+    reset();
+  }
 }
 
 
@@ -101,10 +104,14 @@ bool HX711::wait_ready_timeout(uint32_t timeout, uint32_t ms)
 //       digital output pin DOUT is HIGH.
 //  Serial clock input PD_SCK should be LOW.
 //  When DOUT goes to LOW, it indicates data is ready for retrieval.
+//  Blocking period can be long up to 400 ms in first read() call.
 float HX711::read()
 {
   //  this BLOCKING wait takes most time...
-  while (digitalRead(_dataPin) == HIGH) yield();
+  while (digitalRead(_dataPin) == HIGH)
+  {
+    yield();
+  }
 
   union
   {
