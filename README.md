@@ -36,6 +36,8 @@ load etc. only 16 to 20 of the bits are expected significant in practice.
 This translates roughly to 4 or max 5 significant digits in a single measurement
 That's why it is advised to average (median) multiple measurements to reduce the noise.
 
+Feedback as always is welcome.
+
 
 ### Breaking change 0.4.0
 
@@ -111,6 +113,7 @@ This is a close "relative" of the HX711 that allows to set the SPS to
 - https://github.com/RobTillaart/HX710AB
 - https://github.com/RobTillaart/HX711
 - https://github.com/RobTillaart/HX711_MP  multipoint calibration version.
+- https://github.com/RobTillaart/printHelpers engineering and scientific notation.
 
 Discussion about resolution of the ADC
 - https://forum.arduino.cc/t/scale-from-50-kg-to-5000kg-what-adc/1139710
@@ -124,6 +127,12 @@ Never seen one and cannot tell if it will work with this library.
 
 Breakout with RATE exposed by ADAfruit
 - https://www.adafruit.com/product/5974
+
+Reading multiple HX711's simultaneously
+- https://github.com/compugician/HX711-multi
+
+TM7711 - compatible (seems to, needs investigation)
+- https://electropeak.com/learn/interfacing-tm7711-electronic-weighing-sensor-with-arduino/
 
 
 ### Faulty boards
@@ -373,6 +382,9 @@ Note: Having the RATE set to 10 or 80 SPS changes the time to start up.
 At 10 SPS it takes 400 milliseconds, at 80 SPS it takes 50 milliseconds.
 (See datasheet, Output settling time on page 3)
 
+Note: add a pull up resistor on the CLK pin prevents waking up when the
+processor goes to sleep and cannot keep the CLK pin HIGH.
+
 
 ### Rate
 
@@ -440,7 +452,7 @@ Use calibrate to find your favourite values.
 - A+/A-  uses gain of 128 or 64
 - B+/B-  uses gain of 32
 
-Colour scheme wires of two devices.
+Colour scheme wires of two devices. Check the data sheet of your device!)
 
 |  HX711 Pin  |  Colour dev 1   |  Colour dev 2   |
 |:-----------:|:---------------:|:---------------:|
@@ -537,6 +549,8 @@ See https://github.com/RobTillaart/HX711/issues/40
   - example for using rate functions.
 - investigate temperature compensation.
 - decide pricing keep/not => move to .cpp
+- implement HX711_RAW class, that only supports raw mode.
+
 
 #### Wont
 
