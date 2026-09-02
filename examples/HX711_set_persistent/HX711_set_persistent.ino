@@ -12,10 +12,7 @@
 #include "HX711.h"
 #include <EEPROM.h>
 
-
 int eeAddress = 0;
-#define EEPROM_SIZE 100
-
 
 bool forced = false; // indicates that we want to enter calibration mode
 HX711 scale;
@@ -62,11 +59,11 @@ void setup()
   Serial.println();
 
   pinMode(buttonTare, INPUT_PULLUP);
-  bascula = LoadStruct(0);//load off eeprom 
+  bascula = LoadStruct(0); // load off eeprom 
 
-  scale.set_scale(bascula.scala); //read scale from eeprom position 0
-  scale.set_offset(bascula.offSet); //read offSet from eeprom position 100
-  scale.begin(dataPin, clockPin);// initiate communication
+  scale.begin(dataPin, clockPin); // initiate communication (and implicitly reset configuration)
+  scale.set_scale(bascula.scala); // set scale from eeprom (needs to be done after begin() is called)
+  scale.set_offset(bascula.offSet); // set offSet from eeprom (needs to be done after begin() is called)
 
   if ((bascula.scala == 0.00) || (bascula.offSet == 0) || (forced == true)) {
 
