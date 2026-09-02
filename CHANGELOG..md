@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.6.5] - 2026-09-02
 - fix #75, thanks to cracksalad
+- removed m4 from build-CI to reduce build time (expect in 1 sketch).
 - minor edits
 
 ## [0.6.4] - 2026-06-28
