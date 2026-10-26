@@ -124,6 +124,7 @@ float HX711::read(uint32_t timeOut)
       return 0.0f;
     }
   }
+  _error = HX711_OK;
 
   union
   {
@@ -188,6 +189,10 @@ float HX711::read_average(uint8_t times)
   for (uint8_t i = 0; i < times; i++)
   {
     sum += read();
+    if (_error == HX711_READ_TIMEOUT)
+    {
+      return 0.0f;
+    }
     yield();
   }
   return sum / times;
@@ -202,6 +207,10 @@ float HX711::read_median(uint8_t times)
   for (uint8_t i = 0; i < times; i++)
   {
     samples[i] = read();
+    if (_error == HX711_READ_TIMEOUT)
+    {
+      return 0.0f;
+    }
     yield();
   }
   _insertSort(samples, times);
@@ -218,6 +227,10 @@ float HX711::read_medavg(uint8_t times)
   for (uint8_t i = 0; i < times; i++)
   {
     samples[i] = read();
+    if (_error == HX711_READ_TIMEOUT)
+    {
+      return 0.0f;
+    }
     yield();
   }
   _insertSort(samples, times);
@@ -241,9 +254,17 @@ float HX711::read_runavg(uint8_t times, float alpha)
   if (alpha < 0)  alpha = 0;
   if (alpha > 1)  alpha = 1;
   float val = read();
+  if (_error == HX711_READ_TIMEOUT)
+  {
+    return 0.0f;
+  }
   for (uint8_t i = 1; i < times; i++)
   {
     val += alpha * (read() - val);
+    if (_error == HX711_READ_TIMEOUT)
+    {
+      return 0.0f;
+    }
     yield();
   }
   return val;

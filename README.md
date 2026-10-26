@@ -108,12 +108,16 @@ This is a close "relative" of the HX711 that allows to set the SPS to
 
 ### Related
 
+HX7xx
 - https://github.com/bogde/HX711 
 - https://github.com/bogde/HX711/issues/172 - hx711 module design fault fix
-- https://github.com/RobTillaart/weight  (conversions kg <> stone etc.)
 - https://github.com/RobTillaart/HX710AB
 - https://github.com/RobTillaart/HX711 
 - https://github.com/RobTillaart/HX711_MP MP = multipoint calibration version.
+- https://github.com/RobTillaart/HX712 includes battery monitoring
+
+Other
+- https://github.com/RobTillaart/weight  (conversions kg <> stone etc.)
 - https://github.com/RobTillaart/printHelpers engineering and scientific notation.
 
 Discussion about resolution of the ADC
@@ -203,18 +207,21 @@ There are different ways to wait for a new measurement.
 
 ### Read
 
-Warning: the read calls are blocking calls, which can take up to 400 ms in the first read() call.
-Best practice is to check with isReady() before calling read().
+Warning: the read() calls are blocking calls as they have a tight loop waiting for an IO signal.
+This signal can take up to 400 ms in the first read() call according to the datasheet.
+If this signal does not happen the read() call might be blocking forever (deadlock).
 
-Since 0.6.6 read() has a timeout of 1000 milliseconds, to "break" the blocking call.
-If this occurs a **HX711_READ_TIMEOUT** error will be set.
+Since 0.6.6 read() has a timeout parameter which defaults to 1000 milliseconds.
+This will "break" the blocking loop for read() to prevent the deadlock.
+The failed read() call will return 0.0f which may cause a detectable spike in your measurements.
+The other read_xxx() functions that use on read() handle the timeout by also returning 0.0f.
+
+If read() or one of the other functions times out a **HX711_READ_TIMEOUT** error will be set.
 This error can be checked with **getLastError()** which resets the error to **HX711_OK**.
-The other read_xxx() functions that depend on read() will therefore also "break" blocking calls. 
 
 - **float read(uint32_t timeout = 1000)** get a raw read.
 A default timeout of 1000 milliseconds prevents blocking.
 If blocking occurs the function returns the value 0.0f.
-This may cause a detectable spike in your measurements.
 - **float read_average(uint8_t times = 10)** get average of times raw reads. times = 1 or more.
 - **float read_median(uint8_t times = 7)** get median of multiple raw reads. 
 times = 3..15 - odd numbers preferred.
@@ -559,7 +566,7 @@ The use of an IO expander could reduce the amount of IO pins needed (not tested)
 #### Must
 
 - update documentation
-- keep in sync with HX711_MP, HX710AB library.
+- keep in sync with HX711_MP, HX710AB and HX712 library.
 
 #### Should
 
