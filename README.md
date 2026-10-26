@@ -176,16 +176,19 @@ Note that the units used in **calibrate_scale()** will be returned by **get_unit
 
 - **HX711()** constructor.
 - **~HX711()** destructor.
-- **void begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor = false, bool doReset = true)** sets a fixed gain 128 for now.
+- **bool begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor = false, bool doReset = true)** sets a fixed gain 128 for now.
   - The parameter fastProcessor adds a 1 uS delay for each clock half-cycle to keep the time greater than 200 nS.
   - The parameter doReset is experimental in 0.6.3.
   It defaults to true (== backwards compatible) causing a call to reset(), taking extra time 
   before the device is ready to make new measurements. See reset() below. 
   Note that not calling reset() leaves the ADC in the previous or even an undefined state, 
   so use with care. (needs testing)
-- **void reset()** set internal state to the start condition.
+  Note: returns false if reset() fails due to timeOut of read()
+- **bool reset()** set internal state to the start condition.
 Reset() also does a power_down() / power_up() cycle. 
 This cycle adds a delay of 400 (RATE = 10 SPS) or 50 (RATE = 80 SPS) milliseconds.
+Furthermore it calls read() to read the device.
+If this read() call blocks for more than 1000 milliseconds, reset() returns false.
 
 
 ### isReady
@@ -203,7 +206,15 @@ There are different ways to wait for a new measurement.
 Warning: the read calls are blocking calls, which can take up to 400 ms in the first read() call.
 Best practice is to check with isReady() before calling read().
 
-- **float read()** get a raw read.
+Since 0.6.6 read() has a timeout of 1000 milliseconds, to "break" the blocking call.
+If this occurs a **HX711_READ_TIMEOUT** error will be set.
+This error can be checked with **getLastError()** which resets the error to **HX711_OK**.
+The other read_xxx() functions that depend on read() will therefore also "break" blocking calls. 
+
+- **float read(uint32_t timeout = 1000)** get a raw read.
+A default timeout of 1000 milliseconds prevents blocking.
+If blocking occurs the function returns the value 0.0f.
+This may cause a detectable spike in your measurements.
 - **float read_average(uint8_t times = 10)** get average of times raw reads. times = 1 or more.
 - **float read_median(uint8_t times = 7)** get median of multiple raw reads. 
 times = 3..15 - odd numbers preferred.
@@ -403,6 +414,25 @@ If not configured the other functions won't work.
 - **uint8_t get_rate()** returns 10 d(default) or 80.
 
 
+### Error
+
+Error handling started in 0.6.6 and only supports a read timeout for now.
+It detects if read is blocking for more than 1000 milliseconds. 
+read() is used in several functions including reset() and begin(), 
+so checking the error state might improve your project.
+
+- **getLastError()** returns the last error and resets the internal value
+to HX711_OK.
+
+|  error               |  value  |  notes  |
+|:---------------------|:-------:|:--------|
+|  HX711_OK            |    0    |  default
+|  HX711_READ_TIMEOUT  |   -10   |
+
+Note: reset() resets the internal error too, before calling read(),
+so one can see if the reset() call succeeded.
+
+
 ### Pricing
 
 Some price functions were added to make it easy to use this library
@@ -542,10 +572,12 @@ The use of an IO expander could reduce the amount of IO pins needed (not tested)
   - investigate the need of yield after interrupts
   - investigate blocking loop at begin => less yield() calls ?
 - add performance figures
+- extend error handling
+  - 0.6.6 minimal start (#78)
+  - fix the logic if timeout occurs in read_average() et al. if possible.
 
 #### Could
 
-- add error handling?
 - optimize fastProcessor code (possible better performance)
   - injecting 2 micro delays is not always needed.
   - int flag instead of bool.

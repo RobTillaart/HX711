@@ -1,7 +1,7 @@
 //
 //    FILE: HX711.cpp
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.5
+// VERSION: 0.6.6
 //    DATE: 2019-09-04
 // PURPOSE: Library for load cells for UNO
 //     URL: https://github.com/RobTillaart/HX711_MP
@@ -28,7 +28,7 @@ HX711::~HX711()
 }
 
 
-void HX711::begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor, bool doReset)
+bool HX711::begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor, bool doReset)
 {
   _dataPin  = dataPin;
   _clockPin = clockPin;
@@ -40,12 +40,13 @@ void HX711::begin(uint8_t dataPin, uint8_t clockPin, bool fastProcessor, bool do
 
   if (doReset)
   {
-    reset();
+    return reset();
   }
+  return true;
 }
 
 
-void HX711::reset()
+bool HX711::reset()
 {
   power_down();
   power_up();
@@ -55,7 +56,10 @@ void HX711::reset()
   _lastTimeRead = 0;
   _mode     = HX711_AVERAGE_MODE;
   _price    = 0;
+
+  _error    = HX711_OK;
   read();  //  force settings.
+  return (_error == HX711_OK);
 }
 
 
@@ -107,12 +111,18 @@ bool HX711::wait_ready_timeout(uint32_t timeout, uint32_t ms)
 //  Serial clock input PD_SCK should be LOW.
 //  When DOUT goes to LOW, it indicates data is ready for retrieval.
 //  Blocking period can be long up to 400 ms in first read() call.
-float HX711::read()
+float HX711::read(uint32_t timeOut)
 {
+  uint32_t start = millis();
   //  this BLOCKING wait takes most time...
   while (digitalRead(_dataPin) == HIGH)
   {
     yield();
+    if (millis() - start > timeOut)
+    {
+      _error = HX711_READ_TIMEOUT;
+      return 0.0f;
+    }
   }
 
   union
@@ -457,6 +467,18 @@ uint8_t HX711::get_rate()
 uint32_t HX711::last_time_read()
 {
   return _lastTimeRead;
+}
+
+
+///////////////////////////////////////////////////////////////
+//
+//  ERROR
+//
+int HX711::getLastError()
+{
+  int e = _error;
+  _error = HX711_OK;
+  return e;
 }
 
 

@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+rename changelog.....md
+
+
+## [0.6.6] - 2026-10-26
+- fix #78, add timeout parameter in read(), thanks to cracksalad
+- add getLastError() - HX711_READ_TIMEOUT only for now
+- add example - HX711_test_read_timeout.ino
+- update compare_bogde_hx711.md table
+- update readme.md
 
 ## [0.6.5] - 2026-09-02
 - fix #75, thanks to cracksalad

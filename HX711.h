@@ -2,7 +2,7 @@
 //
 //    FILE: HX711.h
 //  AUTHOR: Rob Tillaart
-// VERSION: 0.6.5
+// VERSION: 0.6.6
 //    DATE: 2019-09-04
 // PURPOSE: Library for load cells for Arduino
 //     URL: https://github.com/RobTillaart/HX711_MP
@@ -16,7 +16,7 @@
 
 #include "Arduino.h"
 
-#define HX711_LIB_VERSION               (F("0.6.5"))
+#define HX711_LIB_VERSION               (F("0.6.6"))
 
 
 const uint8_t HX711_AVERAGE_MODE = 0x00;
@@ -37,6 +37,11 @@ const uint8_t HX711_CHANNEL_A_GAIN_64 = 64;
 const uint8_t HX711_CHANNEL_B_GAIN_32 = 32;
 
 
+//  error codes - minimal
+const int HX711_OK = 0;
+const int HX711_READ_TIMEOUT = -10;
+
+
 class HX711
 {
 public:
@@ -44,11 +49,11 @@ public:
   ~HX711();
 
   //  fixed gain 128 for now
-  void     begin(uint8_t dataPin, uint8_t clockPin,
+  bool     begin(uint8_t dataPin, uint8_t clockPin,
                  bool fastProcessor = false,
                  bool doReset = true);
 
-  void     reset();
+  bool     reset();
 
   //  checks if load cell is ready to read.
   //  use this to prevent blocking reads, esp at startup, 1st read.
@@ -69,7 +74,9 @@ public:
   //
   //  raw read, is blocking until device is ready to read().
   //  this blocking period can be long up to 400 ms in first read() call.
-  float    read();
+  //  Since 0.6.6 read() has a timeout parameter to prevent blocking.
+  //  See issue 78.
+  float    read(uint32_t timeOut = 1000);
 
   //  get average of multiple raw reads
   //  times = 1 or more
@@ -187,6 +194,10 @@ public:
   uint32_t last_read() { return last_time_read(); };
 
 
+  //  ERROR
+  int      getLastError();  //  resets error too.
+
+
   //  PRICING
   float    get_price(uint8_t times = 1) { return get_units(times) * _price; };
   void     set_unit_price(float price = 1.0) { _price = price; };
@@ -206,6 +217,7 @@ private:
   uint8_t  _ratePin = 255;
   uint8_t  _rate = 10;
   float    _price;
+  int      _error = HX711_OK;
 
   void     _insertSort(float * array, uint8_t size);
   uint8_t  _shiftIn();
