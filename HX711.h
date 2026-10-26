@@ -73,10 +73,11 @@ public:
   //  READ
   //
   //  raw read, is blocking until device is ready to read().
-  //  this blocking period can be long up to 400 ms in first read() call.
-  //  Since 0.6.6 read() has a timeout parameter to prevent blocking.
+  //  this blocking period can be up to 400 ms in first read() call.
+  //  Specific for 10 SPS it is 400 ms, for 80 SPS this is 50 ms
+  //  Since 0.6.6 read() has a timeout parameter to prevent blocking, default 500 ms
   //  Return 0.0f if a timeout occurs. See getLastError() and issue 78.
-  float    read(uint32_t timeOut = 1000);
+  float    read(uint32_t timeOut = 500);
 
   //  get average of multiple raw reads
   //  times = 1 or more
