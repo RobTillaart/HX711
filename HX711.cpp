@@ -3,7 +3,7 @@
 //  AUTHOR: Rob Tillaart
 // VERSION: 0.6.6
 //    DATE: 2019-09-04
-// PURPOSE: Library for load cells for UNO
+// PURPOSE: Arduino library for HX711 24 bit ADC used for load cells.
 //     URL: https://github.com/RobTillaart/HX711_MP
 //     URL: https://github.com/RobTillaart/HX711
 
@@ -14,12 +14,12 @@
 HX711::HX711()
 {
   _offset   = 0;
-  _scale    = 1;
+  _scale    = 1.0f;
   _gain     = HX711_CHANNEL_A_GAIN_128;
   _lastTimeRead = 0;
   _mode     = HX711_AVERAGE_MODE;
   _fastProcessor = false;
-  _price    = 0;
+  _price    = 0.0f;
 }
 
 
@@ -178,7 +178,7 @@ float HX711::read(uint32_t timeOut)
   if (v.data[2] & 0x80) v.data[3] = 0xFF;
 
   _lastTimeRead = millis();
-  return 1.0 * v.value;
+  return 1.0f * v.value;
 }
 
 
@@ -250,9 +250,9 @@ float HX711::read_medavg(uint8_t times)
 
 float HX711::read_runavg(uint8_t times, float alpha)
 {
-  if (times < 1)  times = 1;
-  if (alpha < 0)  alpha = 0;
-  if (alpha > 1)  alpha = 1;
+  if (times < 1)     times = 1;
+  if (alpha < 0.0f)  alpha = 0.0f;
+  if (alpha > 1.0f)  alpha = 1.0f;
   float val = read();
   if (_error == HX711_READ_TIMEOUT)
   {
@@ -404,14 +404,14 @@ bool HX711::tare_set()
 bool HX711::set_scale(float scale)
 {
   if (scale == 0) return false;
-  _scale = 1.0 / scale;
+  _scale = 1.0f / scale;
   return true;
 }
 
 
 float HX711::get_scale()
 {
-  return 1.0 / _scale;
+  return 1.0f / _scale;
 }
 
 

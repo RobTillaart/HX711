@@ -210,6 +210,7 @@ There are different ways to wait for a new measurement.
 Warning: the read() calls are blocking calls as they have a tight loop waiting for an IO signal.
 This signal can take up to 400 ms in the first read() call according to the datasheet.
 If this signal does not happen the read() call might be blocking forever (deadlock).
+Best practice is to check with isReady() before calling read().
 
 Since 0.6.6 read() has a timeout parameter which defaults to 500 milliseconds.
 This will "break" the blocking loop for read() to prevent the deadlock.
@@ -236,7 +237,8 @@ Note: only the "raw" read can set the timeout, the wrappers always use the defau
 
 ### Gain + channel
 
-Use with care as it is not 100% reliable - see issue #27. (solutions welcome).
+Use with care as it is not 100% reliable - see issue #27 (HX711 lib).
+(solutions are welcome)
 
 Read datasheet before use.
 
@@ -585,21 +587,18 @@ The use of an IO expander could reduce the amount of IO pins needed (not tested)
 - add performance figures
 - extend error handling
   - check what can go wrong?
-  
 
 #### Could
 
-- implement setReadTimeout(ms) + getReadTimeout()
-  - all wrapper read_xxx() functions can use a defined timeout
+- add examples
+  - example the "adding" scale
+  - void weight_clr(), void weight_add(), float weight_get() - adding scale
+    - milliVolt example
+  - example for using rate functions.
 - optimize fastProcessor code (possible better performance)
   - injecting 2 micro delays is not always needed.
   - int flag instead of bool.
 - make enum of the MODE's
-- add examples
-  - example the "adding" scale
-  - void weight_clr(), void weight_add(), float weight_get() - adding scale
-  - example for using rate functions.
-  - milliVolt example
 - investigate temperature compensation.
 - decide pricing keep/not => move to .cpp
 - implement HX711_RAW class, that only supports raw mode.
@@ -608,6 +607,9 @@ The use of an IO expander could reduce the amount of IO pins needed (not tested)
 
 #### Wont
 
+- implement setReadTimeout(ms) + getReadTimeout()
+  - all wrapper read_xxx() functions can use a defined timeout
+  - => wrappers fail when there is one timeout so imho low prio.
 - why store the gain as \_gain while the iterations m = 1..3 is used most
   - read() less code
   - **changes from explanatory code to vague**

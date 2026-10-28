@@ -4,7 +4,7 @@
 //  AUTHOR: Rob Tillaart
 // VERSION: 0.6.6
 //    DATE: 2019-09-04
-// PURPOSE: Library for load cells for Arduino
+// PURPOSE: Arduino library for HX711 24 bit ADC used for load cells.
 //     URL: https://github.com/RobTillaart/HX711_MP
 //     URL: https://github.com/RobTillaart/HX711
 //
@@ -154,7 +154,7 @@ public:
   //
   //  SCALE > 0
   //  returns false if scale == 0;
-  bool     set_scale(float scale = 1.0);
+  bool     set_scale(float scale = 1.0f);
   float    get_scale();
 
   //  OFFSET > 0
@@ -201,7 +201,7 @@ public:
 
   //  PRICING
   float    get_price(uint8_t times = 1) { return get_units(times) * _price; };
-  void     set_unit_price(float price = 1.0) { _price = price; };
+  void     set_unit_price(float price = 1.0f) { _price = price; };
   float    get_unit_price() { return _price; };
 
 
