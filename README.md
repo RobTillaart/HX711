@@ -200,9 +200,9 @@ If this read() call blocks for more than 500 milliseconds, reset() returns false
 There are different ways to wait for a new measurement.
 
 - **bool is_ready()** checks if load cell is ready to read.
-- **void wait_ready(uint32_t ms = 0)** wait until ready, check every ms.
-- **bool wait_ready_retry(uint8_t retries = 3, uint32_t ms = 0)** wait max retries.
-- **bool wait_ready_timeout(uint32_t timeout = 1000, uint32_t ms = 0)** wait max timeout milliseconds.
+- **void wait_ready(uint32_t ms = 0)** wait until ready, check every ms milliseconds.
+- **bool wait_ready_retry(uint8_t retries = 3, uint32_t ms = 0)** wait max retries, check every ms milliseconds.
+- **bool wait_ready_timeout(uint32_t timeout = 1000, uint32_t ms = 0)** wait max timeout milliseconds, check every ms milliseconds.
 
 
 ### Read

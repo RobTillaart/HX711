@@ -60,11 +60,11 @@ public:
   bool     is_ready();
 
   //  wait until ready,
-  //  check every ms milliseconds.
+  //  check every ms milliseconds
   void     wait_ready(uint32_t ms = 0);
-  //  max # retries
+  //  max # retries, check every ms milliseconds
   bool     wait_ready_retry(uint8_t retries = 3, uint32_t ms = 0);
-  //  max timeout
+  //  max timeout, check every ms milliseconds
   bool     wait_ready_timeout(uint32_t timeout = 1000, uint32_t ms = 0);
 
 
@@ -94,7 +94,7 @@ public:
   //  get running average over times measurements.
   //  the weight alpha can be set to any value between 0 and 1
   //  times = 1 or more.
-  float    read_runavg(uint8_t times = 7, float alpha = 0.5);
+  float    read_runavg(uint8_t times = 7, float alpha = 0.5f);
 
 
   ///////////////////////////////////////////////////////////////
